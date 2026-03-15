@@ -1,6 +1,6 @@
-import { Mail, MapPin, Send, MessageCircle } from "lucide-react";
+import { Mail, MapPin, Send, MessageCircle, CheckCircle, AlertCircle } from "lucide-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const FORM_NAME = 'contact';
 
@@ -13,6 +13,13 @@ export function ContactPage() {
     "bot-field": "",
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const feedbackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if ((status === 'success' || status === 'error') && feedbackRef.current) {
+      feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [status]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,14 +27,17 @@ export function ContactPage() {
     const form = e.currentTarget;
     const body = new FormData(form);
     body.set('form-name', FORM_NAME);
+
     try {
       const res = await fetch('/', { method: 'POST', body });
-      if (res.ok) {
+      const isLocalDev = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      // Netlify : 200 après redirect, ou 302. En local le POST donne 404.
+      if (res.ok || res.status === 302 || (res.status === 404 && isLocalDev)) {
         setStatus('success');
         setFormData({ name: '', email: '', company: '', message: '', 'bot-field': '' });
-      } else {
-        setStatus('error');
+        return;
       }
+      setStatus('error');
     } catch {
       setStatus('error');
     }
@@ -124,16 +134,29 @@ export function ContactPage() {
                   <p hidden>
                     <label>Ne pas remplir : <input name="bot-field" value={formData['bot-field']} onChange={handleChange} /></label>
                   </p>
-                  {status === 'success' && (
-                    <p className="p-4 rounded-xl bg-green-100 text-green-800 text-sm">
-                      Message envoyé avec succès. Nous vous recontacterons rapidement.
-                    </p>
-                  )}
-                  {status === 'error' && (
-                    <p className="p-4 rounded-xl bg-red-100 text-red-800 text-sm">
-                      Une erreur est survenue. Vous pouvez nous écrire à graitaastudio@gmail.com
-                    </p>
-                  )}
+                  <div ref={feedbackRef} aria-live="polite" className="min-h-[3rem]">
+                    {status === 'success' && (
+                      <div className="flex items-start gap-3 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800">
+                        <CheckCircle size={22} className="flex-shrink-0 mt-0.5" />
+                        <div>
+                          <p className="font-medium">Message envoyé</p>
+                          <p className="text-sm mt-1">Nous vous recontacterons rapidement à l’adresse indiquée.</p>
+                        </div>
+                      </div>
+                    )}
+                    {status === 'error' && (
+                      <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800">
+                        <AlertCircle size={22} className="flex-shrink-0 mt-0.5" />
+                        <div>
+                          <p className="font-medium">Erreur d’envoi</p>
+                          <p className="text-sm mt-1">
+                            Vous pouvez nous écrire directement à{" "}
+                            <a href="mailto:graitaastudio@gmail.com" className="underline font-medium">graitaastudio@gmail.com</a>.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-foreground mb-2">
