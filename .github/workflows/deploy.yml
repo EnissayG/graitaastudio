@@ -32,8 +32,6 @@ jobs:
 
       - name: Build
         run: npm run build
-        env:
-          GITHUB_ACTIONS: true
 
       - name: Fix SPA routing (404 = index)
         run: cp dist/index.html dist/404.html

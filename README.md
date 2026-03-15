@@ -138,6 +138,8 @@ GraitaaStudio/
 
 Le workflow copie `index.html` en `404.html` pour que le routage SPA fonctionne sur toutes les URLs.
 
+**Aperçu des liens (réseaux sociaux)** : le site inclut des balises Open Graph et Twitter Card. L’image de prévisualisation est `public/og-preview.svg`. Pour un rendu optimal (Facebook, LinkedIn, etc.), remplacez dans `index.html` la valeur de `og:image` et `twitter:image` par l’URL absolue de votre image (ex. `https://votreuser.github.io/GraitaaStudio/og-preview.png`) et déposez une version PNG 1200×630 dans `public/` si besoin.
+
 ---
 
 ## Licence et crédits

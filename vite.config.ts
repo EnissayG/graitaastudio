@@ -4,7 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: process.env.GITHUB_ACTIONS ? '/GraitaaStudio/' : '/',
+  // Chemins relatifs pour que les assets chargent sur GitHub Pages (évite 404)
+  base: './',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
