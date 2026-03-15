@@ -160,7 +160,7 @@ export function AboutPage() {
       </section>
 
       {/* Process */}
-      <section className="py-24 px-6 lg:px-8 bg-gray-50">
+      <section className="py-24 px-6 lg:px-8 bg-muted/50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-2xl lg:text-3xl text-foreground font-semibold mb-4">
@@ -178,7 +178,7 @@ export function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative"
+                className=""
               >
                 <div className="text-5xl text-[var(--brand-muted)] font-semibold mb-3 tabular-nums">
                   {step.number}
@@ -189,9 +189,6 @@ export function AboutPage() {
                 <p className="text-muted-foreground leading-relaxed text-sm">
                   {step.description}
                 </p>
-                {index < process.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-[var(--brand-muted)]" />
-                )}
               </motion.div>
             ))}
           </div>

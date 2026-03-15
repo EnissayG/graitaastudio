@@ -1,17 +1,14 @@
-import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Mail, MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
+
+const EMAIL = 'graitaastudio@gmail.com';
 
 export function Contact() {
   const contactInfo = [
     {
       icon: <Mail size={28} />,
       title: 'Email',
-      value: 'hello@graitaastudio.com',
-    },
-    {
-      icon: <Phone size={28} />,
-      title: 'Téléphone',
-      value: '+1 (514) 123-4567',
+      value: EMAIL,
     },
     {
       icon: <MapPin size={28} />,
@@ -33,7 +30,7 @@ export function Contact() {
         </div>
 
         {/* Contact Info Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
           {contactInfo.map((info, index) => (
             <div
               key={index}
@@ -64,7 +61,7 @@ export function Contact() {
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>
           <a
-            href="mailto:hello@graitaastudio.com"
+            href={`mailto:${EMAIL}`}
             className="px-10 py-5 bg-white/20 text-white rounded-full hover:bg-white/30 transition-colors duration-200 text-lg border border-white/40"
           >
             Envoyez-nous un email

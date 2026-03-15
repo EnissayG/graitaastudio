@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Send, Clock, MessageCircle } from "lucide-react";
+import { Mail, MapPin, Send, MessageCircle } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 
@@ -27,25 +27,13 @@ export function ContactPage() {
     {
       icon: <Mail size={24} />,
       title: "Email",
-      value: "hello@graitaastudio.com",
-      link: "mailto:hello@graitaastudio.com",
-    },
-    {
-      icon: <Phone size={24} />,
-      title: "Téléphone",
-      value: "+1 (514) 123-4567",
-      link: "tel:+15141234567",
+      value: "graitaastudio@gmail.com",
+      link: "mailto:graitaastudio@gmail.com",
     },
     {
       icon: <MapPin size={24} />,
       title: "Localisation",
       value: "Montréal, Québec",
-      link: null,
-    },
-    {
-      icon: <Clock size={24} />,
-      title: "Horaires",
-      value: "Lun - Ven : 9h - 18h",
       link: null,
     },
   ];
@@ -256,7 +244,7 @@ export function ContactPage() {
                   et découvrir comment nous pouvons vous aider à atteindre vos objectifs.
                 </p>
                 <a
-                  href="mailto:hello@graitaastudio.com"
+                  href="mailto:graitaastudio@gmail.com"
                   className="inline-block bg-white text-blue-600 px-6 py-3 rounded-full hover:bg-gray-50 transition-colors"
                 >
                   Réserver maintenant
