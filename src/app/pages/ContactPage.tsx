@@ -2,18 +2,35 @@ import { Mail, MapPin, Send, MessageCircle } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 
+const FORM_NAME = 'contact';
+
 export function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
     message: "",
+    "bot-field": "",
   });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission
+    setStatus('sending');
+    const form = e.currentTarget;
+    const body = new FormData(form);
+    body.set('form-name', FORM_NAME);
+    try {
+      const res = await fetch('/', { method: 'POST', body });
+      if (res.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', company: '', message: '', 'bot-field': '' });
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -94,7 +111,29 @@ export function ContactPage() {
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form
+                  name={FORM_NAME}
+                  method="post"
+                  action="/"
+                  data-netlify="true"
+                  data-netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                >
+                  <input type="hidden" name="form-name" value={FORM_NAME} />
+                  <p hidden>
+                    <label>Ne pas remplir : <input name="bot-field" value={formData['bot-field']} onChange={handleChange} /></label>
+                  </p>
+                  {status === 'success' && (
+                    <p className="p-4 rounded-xl bg-green-100 text-green-800 text-sm">
+                      Message envoyé avec succès. Nous vous recontacterons rapidement.
+                    </p>
+                  )}
+                  {status === 'error' && (
+                    <p className="p-4 rounded-xl bg-red-100 text-red-800 text-sm">
+                      Une erreur est survenue. Vous pouvez nous écrire à graitaastudio@gmail.com
+                    </p>
+                  )}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-foreground mb-2">
@@ -155,6 +194,8 @@ export function ContactPage() {
                         >
                           <input
                             type="checkbox"
+                            name="service"
+                            value={service}
                             className="w-4 h-4 text-[var(--brand)] border-border rounded focus:ring-[var(--brand)]"
                           />
                           <span className="text-sm text-foreground">{service}</span>
@@ -181,10 +222,17 @@ export function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full bg-[var(--brand)] text-white px-8 py-4 rounded-xl hover:bg-[var(--brand-hover)] transition-colors flex items-center justify-center gap-2 text-base font-medium group"
+                    disabled={status === 'sending'}
+                    className="w-full bg-[var(--brand)] text-white px-8 py-4 rounded-xl hover:bg-[var(--brand-hover)] transition-colors flex items-center justify-center gap-2 text-base font-medium group disabled:opacity-70"
                   >
-                    <span>Envoyer le message</span>
-                    <Send size={20} className="group-hover:translate-x-1 transition-transform" />
+                    {status === 'sending' ? (
+                      <span>Envoi en cours...</span>
+                    ) : (
+                      <>
+                        <span>Envoyer le message</span>
+                        <Send size={20} className="group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
                   </button>
                 </form>
               </motion.div>
