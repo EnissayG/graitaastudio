@@ -7,11 +7,13 @@ import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
-// Sur GitHub Pages l'app est sous /GraitaaStudio/, en local à la racine
-const basename =
-  typeof window !== 'undefined' && window.location.pathname.startsWith('/GraitaaStudio')
-    ? '/GraitaaStudio'
-    : '/';
+// En local : pathname = "/" → basename "/". Sur GitHub Pages : pathname = "/graitaastudio/" ou "/GraitaaStudio/" → basename = premier segment
+const getBasename = () => {
+  if (typeof window === 'undefined') return '/';
+  const segments = window.location.pathname.split('/').filter(Boolean);
+  return segments.length > 0 ? '/' + segments[0] : '/';
+};
+const basename = getBasename();
 
 export const router = createBrowserRouter(
   [
