@@ -1,3 +1,6 @@
+const base = (typeof import.meta !== "undefined" && (import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL) || "/";
+const asset = (path: string) => (base.endsWith("/") ? base + path.replace(/^\//, "") : base + path);
+
 export const projects = [
   {
     id: 1,
@@ -6,8 +9,8 @@ export const projects = [
     description: "Distributeurs de ramen 24/7 à Montréal",
     category: "Site vitrine · Restauration",
     url: "https://mirairamen.netlify.app/",
-    image: "/logo-mirai-ramen.png",
-    logo: "/logo-mirai-ramen.png",
+    image: asset("/logo-mirai-ramen.png"),
+    logo: asset("/logo-mirai-ramen.png"),
     logoAlt: "Mirai Ramen",
     tags: ["Site vitrine", "Restauration"],
     challenges:
@@ -26,8 +29,8 @@ export const projects = [
     description: "Services Cofandi",
     category: "Site vitrine · Café & vente",
     url: "https://cofandiservice.netlify.app/",
-    image: "/logo-cofandi.png",
-    logo: "/logo-cofandi.png",
+    image: asset("/logo-cofandi.png"),
+    logo: asset("/logo-cofandi.png"),
     logoAlt: "Cofandi",
     tags: ["Site vitrine", "Café & vente"],
     challenges:
@@ -36,8 +39,8 @@ export const projects = [
       "Design épuré centré sur l'expérience et les visuels, avec des informations bien structurées.",
     longDescription:
       "Site web pour un distributeur automatique intelligent de café. Interface moderne qui facilite la découverte des produits et présente le concept de façon claire et attractive.",
-    invertOnLight: true,
-    imageCover: false,
+    invertOnLight: false,
+    imageCover: true,
   },
   {
     id: 3,
@@ -46,8 +49,8 @@ export const projects = [
     description: "Le Quartier Général",
     category: "Site vitrine · Services",
     url: "",
-    image: "/qg-barbier-quartier-general.png",
-    logo: "/qg-barbier-quartier-general.png",
+    image: asset("/qg-barbier-quartier-general.png"),
+    logo: asset("/qg-barbier-quartier-general.png"),
     logoAlt: "QG Barbier - Le Quartier Général",
     tags: ["Site vitrine", "Services"],
     challenges:
