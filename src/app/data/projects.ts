@@ -20,7 +20,7 @@ export const projects = [
     longDescription:
       "Un site web moderne et captivant pour un concept innovant de distributeur automatique de ramen. Design épuré qui met en valeur l'expérience culinaire japonaise avec une interface intuitive et des visuels attrayants.",
     invertOnLight: false,
-    imageCover: false,
+    imageCover: true,
   },
   {
     id: 2,
