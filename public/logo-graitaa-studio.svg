@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" fill="none">
+  <!-- Marque GS (carr arrondi + initiales) -->
+  <rect x="0" y="0" width="48" height="48" rx="10" fill="#2563eb"/>
+  <text x="24" y="32" fill="white" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="18" text-anchor="middle">GS</text>
+  <!-- Wordmark -->
+  <text x="62" y="36" fill="#2563eb" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="24">Graitaa Studio</text>
+</svg>

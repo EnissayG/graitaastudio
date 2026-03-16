@@ -1,5 +1,33 @@
-import { CheckCircle, Users, Award, Lightbulb, Target, Heart, Zap } from "lucide-react";
+import { CheckCircle, Users, Award, Lightbulb, Target, Heart, Zap, ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
+
+const projects = [
+  {
+    name: "Mirai Ramen",
+    description: "Distributeurs de ramen 24/7 à Montréal",
+    url: "https://mirairamen.netlify.app/",
+    logo: "/logo-mirai-ramen.png",
+    logoAlt: "Mirai Ramen",
+    invertOnLight: false,
+  },
+  {
+    name: "Cofandi Service",
+    description: "Services Cofandi",
+    url: "https://cofandiservice.netlify.app/",
+    logo: "/logo-cofandi.png",
+    logoAlt: "Cofandi",
+    invertOnLight: true,
+  },
+  {
+    name: "QG Barbier",
+    description: "Le Quartier Général",
+    url: "",
+    logo: "/qg-barbier-quartier-general.png",
+    logoAlt: "QG Barbier - Le Quartier Général",
+    invertOnLight: false,
+    imageCover: true,
+  },
+];
 
 export function AboutPage() {
   const stats = [
@@ -191,6 +219,62 @@ export function AboutPage() {
                 </p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Réalisations / Projets */}
+      <section className="py-24 px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-2xl lg:text-3xl text-foreground font-semibold mb-4">
+              Réalisations
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Quelques projets que nous avons livrés (liens temporaires)
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {projects.map((project, index) => {
+              const Wrapper = project.url ? motion.a : motion.div;
+              const wrapperProps = project.url
+                ? { href: project.url, target: "_blank" as const, rel: "noopener noreferrer" }
+                : {};
+              return (
+                <Wrapper
+                  key={project.name}
+                  {...wrapperProps}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group flex flex-col items-center gap-4 p-8 rounded-2xl border border-border bg-background hover:border-[var(--brand-muted)] hover:shadow-lg transition-all duration-200"
+                >
+                  <div
+                    className={
+                      project.imageCover
+                        ? "h-28 w-full rounded-xl overflow-hidden bg-muted [&_img]:w-full [&_img]:h-full [&_img]:object-cover"
+                        : `h-20 flex items-center justify-center [&_img]:max-h-16 [&_img]:w-auto [&_img]:object-contain ${project.invertOnLight ? "[&_img]:dark:invert-0 [&_img]:invert" : ""}`
+                    }
+                  >
+                    <img src={project.logo} alt={project.logoAlt} />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-xl text-foreground font-semibold mb-1 group-hover:text-[var(--brand)] transition-colors">
+                      {project.name}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-2">
+                      {project.description}
+                    </p>
+                    {project.url && (
+                      <span className="inline-flex items-center gap-1 text-sm text-[var(--brand)] font-medium">
+                        Voir le site <ExternalLink size={14} />
+                      </span>
+                    )}
+                  </div>
+                </Wrapper>
+              );
+            })}
           </div>
         </div>
       </section>
