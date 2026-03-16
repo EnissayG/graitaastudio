@@ -31,7 +31,6 @@ export function ContactPage() {
     try {
       const res = await fetch('/', { method: 'POST', body });
       const isLocalDev = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-      // Netlify : 200 après redirect, ou 302. En local le POST donne 404.
       if (res.ok || res.status === 302 || (res.status === 404 && isLocalDev)) {
         setStatus('success');
         setFormData({ name: '', email: '', company: '', message: '', 'bot-field': '' });
@@ -326,7 +325,6 @@ export function ContactPage() {
         </div>
       </section>
 
-      {/* FAQ Preview */}
       <section className="py-20 px-6 lg:px-8 bg-muted/50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">

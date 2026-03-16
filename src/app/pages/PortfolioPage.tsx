@@ -1,40 +1,6 @@
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-
-export function PortfolioPage() {
-  const projects = [
-    {
-      id: 1,
-      title: "Mirai Ramen",
-      category: "Site vitrine · Restauration",
-      description: "Un site web moderne et captivant pour un concept innovant de distributeur automatique de ramen. Design épuré qui met en valeur l'expérience culinaire japonaise avec une interface intuitive et des visuels attrayants.",
-      image: "https://images.unsplash.com/photo-1644073758253-0e7e4b9003da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyYW1lbiUyMGJvd2wlMjBqYXBhbmVzZSUyMG1vZGVybnxlbnwxfHx8fDE3NzM1NTExOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      tags: ["Site vitrine", "Restauration"],
-      challenges: "Créer une expérience utilisateur qui reflète la modernité du concept tout en respectant l'esthétique japonaise traditionnelle.",
-      solution: "Design minimaliste avec palette de couleurs inspirée du Japon, animations subtiles et navigation intuitive.",
-    },
-    {
-      id: 2,
-      title: "Cofandi",
-      category: "Site vitrine · Café & vente",
-      description: "Site web pour un distributeur automatique intelligent de café. Interface moderne qui facilite la découverte des produits et présente le concept de façon claire et attractive.",
-      image: "https://images.unsplash.com/photo-1730916335055-88fd6e6a9771?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjB2ZW5kaW5nJTIwbWFjaGluZXxlbnwxfHx8fDE3NzM1NTExOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      tags: ["Site vitrine", "Café & vente"],
-      challenges: "Présenter le produit de manière accessible et attractive pour un large public.",
-      solution: "Design épuré centré sur l'expérience et les visuels, avec des informations bien structurées.",
-    },
-    {
-      id: 3,
-      title: "QG Quartier Général Barber Shop",
-      category: "Site vitrine · Services",
-      description: "Site web professionnel et élégant pour un salon de coiffure moderne à Montréal. Design sophistiqué qui reflète l'atmosphère premium du salon, avec galerie et prise de rendez-vous en ligne.",
-      image: "https://images.unsplash.com/photo-1759142016096-a9d1a5ebcc09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJiZXJzaG9wJTIwY2hhaXIlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzczNTUxMTk2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      tags: ["Site vitrine", "Services"],
-      challenges: "Créer une présence en ligne qui attire une clientèle locale et facilite les réservations.",
-      solution: "Site élégant avec galerie photos, prise de rendez-vous simple et informations de localisation claires.",
-    },
-  ];
+import { projects } from "../data/projects";
 
   return (
     <div className="pt-24">
@@ -76,11 +42,11 @@ export function PortfolioPage() {
             >
               {/* Image */}
               <div className="flex-1 w-full">
-                <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group">
-                  <ImageWithFallback
+                <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group bg-muted">
+                  <img
                     src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    alt={project.logoAlt}
+                    className={`w-full h-full group-hover:scale-105 transition-transform duration-700 ${project.imageCover ? "object-cover" : "object-contain"} ${project.invertOnLight ? "invert dark:invert-0" : ""}`}
                   />
                 </div>
               </div>
@@ -95,7 +61,7 @@ export function PortfolioPage() {
                     {project.title}
                   </h2>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    {project.description}
+                    {project.longDescription}
                   </p>
                 </div>
 
@@ -128,10 +94,17 @@ export function PortfolioPage() {
                 </div>
 
                 {/* View Project Link */}
-                <button className="inline-flex items-center gap-2 text-[var(--brand)] hover:text-[var(--brand-hover)] transition-colors group">
-                  <span>Voir le projet</span>
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                </button>
+                {project.url ? (
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[var(--brand)] hover:text-[var(--brand-hover)] transition-colors group"
+                  >
+                    <span>Voir le site</span>
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </a>
+                ) : null}
               </div>
             </motion.div>
           ))}

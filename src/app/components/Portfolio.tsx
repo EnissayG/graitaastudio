@@ -1,25 +1,6 @@
 import { ExternalLink } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Link } from 'react-router';
-
-export function Portfolio() {
-  const projects = [
-    {
-      title: 'Mirai Ramen',
-      category: 'Restauration',
-      image: 'https://images.unsplash.com/photo-1644073758253-0e7e4b9003da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyYW1lbiUyMGJvd2wlMjBqYXBhbmVzZSUyMG1vZGVybnxlbnwxfHx8fDE3NzM1NTExOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    },
-    {
-      title: 'Cofandi',
-      category: 'Technologie',
-      image: 'https://images.unsplash.com/photo-1730916335055-88fd6e6a9771?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjB2ZW5kaW5nJTIwbWFjaGluZXxlbnwxfHx8fDE3NzM1NTExOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    },
-    {
-      title: 'QG Quartier Général',
-      category: 'Services',
-      image: 'https://images.unsplash.com/photo-1759142016096-a9d1a5ebcc09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJiZXJzaG9wJTIwY2hhaXIlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzczNTUxMTk2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    },
-  ];
+import { projects } from '../data/projects';
 
   return (
     <section id="portfolio" className="py-20 px-6 lg:px-8 bg-background">
@@ -37,33 +18,52 @@ export function Portfolio() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
-          {projects.map((project, index) => (
-            <Link
-              key={index}
-              to="/portfolio"
-              className="group block rounded-2xl overflow-hidden border border-border bg-muted/30 hover:border-[var(--brand-muted)] hover:shadow-md transition-all duration-300"
-            >
-              <div className="aspect-[4/3] overflow-hidden bg-muted">
-                <ImageWithFallback
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                />
-              </div>
-              <div className="p-5">
-                <span className="text-[var(--brand)] text-xs font-medium uppercase tracking-wide">
-                  {project.category}
-                </span>
-                <h3 className="text-foreground font-semibold mt-1 group-hover:text-[var(--brand)] transition-colors">
-                  {project.title}
-                </h3>
-                <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground mt-2">
-                  Voir le projet
-                  <ExternalLink size={14} className="opacity-70" />
-                </span>
-              </div>
-            </Link>
-          ))}
+          {projects.map((project, index) => {
+            const href = project.url || '/portfolio';
+            const isExternal = !!project.url;
+            const content = (
+              <>
+                <div className="aspect-[4/3] overflow-hidden bg-muted">
+                  <img
+                    src={project.image}
+                    alt={project.logoAlt}
+                    className={`w-full h-full group-hover:scale-[1.02] transition-transform duration-300 ${project.imageCover ? 'object-cover' : 'object-contain'} ${project.invertOnLight ? 'invert dark:invert-0' : ''}`}
+                  />
+                </div>
+                <div className="p-5">
+                  <span className="text-[var(--brand)] text-xs font-medium uppercase tracking-wide">
+                    {project.category}
+                  </span>
+                  <h3 className="text-foreground font-semibold mt-1 group-hover:text-[var(--brand)] transition-colors">
+                    {project.title}
+                  </h3>
+                  <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground mt-2">
+                    {isExternal ? 'Voir le site' : 'Voir le projet'}
+                    <ExternalLink size={14} className="opacity-70" />
+                  </span>
+                </div>
+              </>
+            );
+            return isExternal ? (
+              <a
+                key={project.id}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block rounded-2xl overflow-hidden border border-border bg-muted/30 hover:border-[var(--brand-muted)] hover:shadow-md transition-all duration-300"
+              >
+                {content}
+              </a>
+            ) : (
+              <Link
+                key={project.id}
+                to={href}
+                className="group block rounded-2xl overflow-hidden border border-border bg-muted/30 hover:border-[var(--brand-muted)] hover:shadow-md transition-all duration-300"
+              >
+                {content}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="text-center">

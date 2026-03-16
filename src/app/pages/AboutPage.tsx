@@ -1,33 +1,6 @@
 import { CheckCircle, Users, Award, Lightbulb, Target, Heart, Zap, ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
-
-const projects = [
-  {
-    name: "Mirai Ramen",
-    description: "Distributeurs de ramen 24/7 à Montréal",
-    url: "https://mirairamen.netlify.app/",
-    logo: "/logo-mirai-ramen.png",
-    logoAlt: "Mirai Ramen",
-    invertOnLight: false,
-  },
-  {
-    name: "Cofandi Service",
-    description: "Services Cofandi",
-    url: "https://cofandiservice.netlify.app/",
-    logo: "/logo-cofandi.png",
-    logoAlt: "Cofandi",
-    invertOnLight: true,
-  },
-  {
-    name: "QG Barbier",
-    description: "Le Quartier Général",
-    url: "",
-    logo: "/qg-barbier-quartier-general.png",
-    logoAlt: "QG Barbier - Le Quartier Général",
-    invertOnLight: false,
-    imageCover: true,
-  },
-];
+import { projects } from "../data/projects";
 
 export function AboutPage() {
   const stats = [
