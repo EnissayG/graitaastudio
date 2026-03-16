@@ -2,6 +2,7 @@ import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router';
 import { projects } from '../data/projects';
 
+export function Portfolio() {
   return (
     <section id="portfolio" className="py-20 px-6 lg:px-8 bg-background">
       <div className="max-w-6xl mx-auto">

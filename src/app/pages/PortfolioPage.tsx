@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import { projects } from "../data/projects";
 
+export function PortfolioPage() {
   return (
     <div className="pt-24">
       {/* Hero Section */}
