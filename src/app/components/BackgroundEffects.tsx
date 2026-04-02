@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 export function BackgroundEffects() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      {/* Un seul blob principal – mouvement lent et discret */}
+      {/* Un seul blob principal, mouvement lent et discret */}
       <motion.div
         className="absolute w-[min(80vw,600px)] h-[min(80vw,600px)] rounded-full opacity-[0.07] blur-3xl"
         style={{

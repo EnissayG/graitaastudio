@@ -11,14 +11,14 @@ Couleurs, typographie et variables utilisées dans le projet (définies dans `sr
 | Élément | Valeur |
 |--------|--------|
 | **Police titres / corps** | [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) (Google Fonts) |
-| **Couleur principale (brand)** | `#2563eb` (bleu) — variable CSS `--brand` |
-| **Couleur brand au survol** | `#1d4ed8` — `--brand-hover` |
-| **Fond atténué brand** | `#dbeafe` — `--brand-muted` (badges, fonds) |
-| **Texte principal** | `#0f172a` — `--foreground` |
-| **Texte secondaire** | `#64748b` — `--muted-foreground` |
-| **Fond de page** | `#ffffff` — `--background` |
-| **Bordures** | `rgba(15, 23, 42, 0.08)` — `--border` |
-| **Rayon des bords** | `0.625rem` (10px) — `--radius` |
+| **Couleur principale (brand)** | `#2563eb` (bleu), variable CSS `--brand` |
+| **Couleur brand au survol** | `#1d4ed8`, `--brand-hover` |
+| **Fond atténué brand** | `#dbeafe`, `--brand-muted` (badges, fonds) |
+| **Texte principal** | `#0f172a`, `--foreground` |
+| **Texte secondaire** | `#64748b`, `--muted-foreground` |
+| **Fond de page** | `#ffffff`, `--background` |
+| **Bordures** | `rgba(15, 23, 42, 0.08)`, `--border` |
+| **Rayon des bords** | `0.625rem` (10px), `--radius` |
 
 Pour modifier la charte : éditer les variables dans `:root` de `src/styles/theme.css` et, pour la police, `src/styles/fonts.css`.
 
@@ -43,7 +43,7 @@ Pour modifier la charte : éditer les variables dans `:root` de `src/styles/them
 
 ## Prérequis
 
-- **Node.js** 18+ (LTS recommandé) — [nodejs.org](https://nodejs.org/)
+- **Node.js** 18+ (LTS recommandé), [nodejs.org](https://nodejs.org/)
 - **npm** (livré avec Node)
 
 ---
