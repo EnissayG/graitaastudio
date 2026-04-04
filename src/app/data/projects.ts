@@ -4,14 +4,6 @@ const asset = (path: string) => (base.endsWith('/') ? base + path.replace(/^\//,
 
 export const projects = [
   {
-    id: 1,
-    url: 'http://mirairamen.ca/',
-    image: asset('/logo-mirai-ramen.png'),
-    logo: asset('/logo-mirai-ramen.png'),
-    invertOnLight: false,
-    imageCover: true,
-  },
-  {
     id: 2,
     url: 'https://cofandiservice.com/',
     image: asset('/logo-cofandi.png'),
@@ -24,6 +16,14 @@ export const projects = [
     url: 'https://qgbarbershop.netlify.app/',
     image: asset('/qg-barbier-quartier-general.png'),
     logo: asset('/qg-barbier-quartier-general.png'),
+    invertOnLight: false,
+    imageCover: true,
+  },
+  {
+    id: 1,
+    url: 'http://mirairamen.ca/',
+    image: asset('/logo-mirai-ramen.png'),
+    logo: asset('/logo-mirai-ramen.png'),
     invertOnLight: false,
     imageCover: true,
   },
