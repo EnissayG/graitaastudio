@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 type ShimmerCTAProps = {
   children: ReactNode;
@@ -11,14 +12,16 @@ type ShimmerCTAProps = {
 };
 
 export function ShimmerCTA({ children, className = '', to, href, onClick }: ShimmerCTAProps) {
+  const shouldReduce = useReducedMotion();
+
   const inner = (
     <>
       <span className="relative z-10 flex items-center justify-center gap-2">{children}</span>
       <motion.span
         className="pointer-events-none absolute inset-0 z-0"
         aria-hidden
-        initial={{ x: '-100%' }}
-        whileHover={{ x: '100%' }}
+        initial={{ x: shouldReduce ? '0%' : '-100%' }}
+        whileHover={shouldReduce ? undefined : { x: '100%' }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         style={{
           background:

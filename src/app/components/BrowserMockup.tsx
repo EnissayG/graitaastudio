@@ -2,29 +2,36 @@ import { Lock, RotateCw } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useAccentColor } from '../hooks/useAccentColor';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export function BrowserMockup() {
   const { t } = useTranslation();
   const { mockRing, mockHoverShadow, accentFade15 } = useAccentColor();
+  const shouldReduce = useReducedMotion();
   const boxRest = `0 24px 48px rgba(0,0,0,0.08), 0 0 0 0.5px ${mockRing}`;
   const boxHover = `0 32px 64px ${mockHoverShadow}`;
 
   return (
-    <div className="w-full [perspective:1000px]">
+    <div className={shouldReduce ? 'mx-auto w-full max-w-[400px]' : 'w-full [perspective:1000px]'}>
       <motion.div
         className="relative w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-2)]"
         style={{
           borderWidth: '0.5px',
-          transformStyle: 'preserve-3d',
+          transformStyle: shouldReduce ? undefined : 'preserve-3d',
           boxShadow: boxRest,
+          transform: shouldReduce ? 'none' : undefined,
         }}
-        initial={{ rotateY: -4, rotateX: 2 }}
-        whileHover={{
-          rotateY: 0,
-          rotateX: 0,
-          boxShadow: boxHover,
-          transition: { duration: 0.4, ease: 'easeOut' },
-        }}
+        initial={shouldReduce ? { rotateY: 0, rotateX: 0 } : { rotateY: -4, rotateX: 2 }}
+        whileHover={
+          shouldReduce
+            ? {}
+            : {
+                rotateY: 0,
+                rotateX: 0,
+                boxShadow: boxHover,
+                transition: { duration: 0.4, ease: 'easeOut' },
+              }
+        }
         transition={{ duration: 0.4, ease: 'easeOut' }}
       >
         <div

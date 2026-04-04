@@ -2,18 +2,20 @@ import { Link } from 'react-router';
 import { Home, ArrowLeft } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
-import { easeScroll } from '../lib/motionPresets';
+import { useReducedMotion } from '../hooks/useReducedMotion';
+import { getFadeUp } from '../utils/motionVariants';
 
 export function NotFoundPage() {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--bg-2)] px-6 pt-24 pb-16">
       <motion.div
         className="mx-auto max-w-2xl text-center"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: easeScroll }}
+        variants={getFadeUp(shouldReduce)}
+        initial="hidden"
+        animate="show"
       >
         <div className="mb-10">
           <div className="mb-4 text-7xl font-semibold tabular-nums text-[var(--blue)] sm:text-8xl">404</div>

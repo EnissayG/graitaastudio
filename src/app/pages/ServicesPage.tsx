@@ -3,19 +3,10 @@ import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
-import { easeScroll } from '../lib/motionPresets';
 import { useDarkMode } from '../hooks/useDarkMode';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useAccentColor } from '../hooks/useAccentColor';
-
-const gridVariants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.07 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeScroll } },
-};
+import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 const serviceKeys = ['uiux', 'dev', 'responsive', 'perf', 'seo', 'ecommerce'] as const;
 
@@ -23,11 +14,13 @@ const serviceIcons = [Palette, Code2, Smartphone, Zap, Search, ShoppingBag];
 
 export function ServicesPage() {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
   const { isDark } = useDarkMode();
   const { accentBorder, accentShadow06, accentNum20 } = useAccentColor();
   const cardHoverShadow = `0 12px 32px ${accentShadow06}`;
 
   const reassuranceKeys = ['reassurance1', 'reassurance2', 'reassurance3'] as const;
+  const cardVariants = getFadeUp(shouldReduce, { y: 20, duration: 0.5 });
 
   return (
     <div className="pt-24">
@@ -43,10 +36,10 @@ export function ServicesPage() {
         <div className="mx-auto max-w-7xl">
           <motion.div
             className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-            variants={gridVariants}
+            variants={getStagger(shouldReduce)}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, margin: '-60px' }}
           >
             {serviceKeys.map((key, index) => {
               const p = `pages.services.${key}`;
@@ -58,12 +51,16 @@ export function ServicesPage() {
                 <motion.div
                   key={key}
                   variants={cardVariants}
-                  whileHover={{
-                    y: -4,
-                    borderColor: accentBorder,
-                    boxShadow: cardHoverShadow,
-                    transition: { duration: 0.2 },
-                  }}
+                  whileHover={
+                    shouldReduce
+                      ? {}
+                      : {
+                          y: -4,
+                          borderColor: accentBorder,
+                          boxShadow: cardHoverShadow,
+                          transition: { duration: 0.2 },
+                        }
+                  }
                   className="relative rounded-xl border border-[var(--border)] bg-[var(--bg-1)] p-8"
                   style={{ borderWidth: '0.5px' }}
                 >
@@ -105,7 +102,7 @@ export function ServicesPage() {
           borderRadius: isDark ? 16 : undefined,
         }}
       >
-        {!isDark ? (
+        {!isDark && !shouldReduce ? (
           <>
             <div
               className="pointer-events-none absolute rounded-full border border-white/10"
@@ -121,10 +118,10 @@ export function ServicesPage() {
         ) : null}
         <motion.div
           className="relative z-10 mx-auto max-w-4xl text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease: easeScroll }}
+          variants={getFadeUp(shouldReduce)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
         >
           <h2
             className={`mb-4 text-3xl font-semibold lg:text-4xl ${isDark ? 'text-[var(--text-1)]' : 'text-white'}`}

@@ -1,6 +1,7 @@
 import { Moon, Sun } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 type ThemeToggleProps = {
   isDark: boolean;
@@ -9,13 +10,14 @@ type ThemeToggleProps = {
 
 export function ThemeToggle({ isDark, onToggle }: ThemeToggleProps) {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
 
   return (
     <motion.button
       type="button"
       onClick={onToggle}
-      whileTap={{ scale: 0.92 }}
-      className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-2)] transition-colors hover:bg-[var(--blue-dim)]"
+      whileTap={shouldReduce ? { scale: 0.98 } : { scale: 0.92 }}
+      className="theme-toggle flex size-9 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-2)] transition-colors hover:bg-[var(--blue-dim)]"
       style={{ borderWidth: '0.5px' }}
       aria-label={isDark ? t('theme.light') : t('theme.dark')}
     >

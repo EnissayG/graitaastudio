@@ -2,13 +2,15 @@ import { Mail, MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
-import { easeScroll } from '../lib/motionPresets';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useDarkMode } from '../hooks/useDarkMode';
+import { getFadeUp } from '../utils/motionVariants';
 
 const EMAIL = 'graitaastudio@gmail.com';
 
 export function Contact() {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
   const { isDark } = useDarkMode();
 
   const contactInfo = [
@@ -32,10 +34,10 @@ export function Contact() {
     >
       <motion.div
         className="mx-auto max-w-6xl"
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.55, ease: easeScroll }}
+        variants={getFadeUp(shouldReduce)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-60px' }}
       >
         <div className="mb-14 text-center">
           <h2

@@ -1,7 +1,8 @@
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useAnimatedStat } from '../hooks/useAnimatedStat';
-import { easeScroll } from '../lib/motionPresets';
+import { useReducedMotion } from '../hooks/useReducedMotion';
+import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 export const statsBarConfig = [
   { target: 10, suffix: '+', labelKey: 'statsBar.projects' },
@@ -10,27 +11,16 @@ export const statsBarConfig = [
   { target: 100, suffix: '%', labelKey: 'statsBar.onTime' },
 ] as const;
 
-const listVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.06 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeScroll } },
-};
-
 export function StatCounter({
   target,
   suffix,
   label,
+  itemVariants,
 }: {
   target: number;
   suffix: string;
   label: string;
+  itemVariants: ReturnType<typeof getFadeUp>;
 }) {
   const { ref, display } = useAnimatedStat(target);
   return (
@@ -53,6 +43,8 @@ export function StatCounter({
 
 export function StatsBar() {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
+  const itemVariants = getFadeUp(shouldReduce, { y: 16, duration: 0.5 });
 
   return (
     <section
@@ -61,17 +53,17 @@ export function StatsBar() {
     >
       <motion.div
         className="mx-auto max-w-6xl"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.55, ease: easeScroll }}
+        variants={getFadeUp(shouldReduce, { y: 20 })}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-60px' }}
       >
         <motion.div
           className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
-          variants={listVariants}
+          variants={getStagger(shouldReduce)}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, margin: '-60px' }}
         >
           {statsBarConfig.map((s) => (
             <StatCounter
@@ -79,6 +71,7 @@ export function StatsBar() {
               target={s.target}
               suffix={s.suffix}
               label={t(s.labelKey)}
+              itemVariants={itemVariants}
             />
           ))}
         </motion.div>

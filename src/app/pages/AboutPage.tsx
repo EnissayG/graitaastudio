@@ -8,17 +8,8 @@ import { PageHero } from '../components/PageHero';
 import { statsBarConfig } from '../components/StatsBar';
 import { useAnimatedStat } from '../hooks/useAnimatedStat';
 import { useAccentColor } from '../hooks/useAccentColor';
-import { easeScroll } from '../lib/motionPresets';
-
-const gridVariants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.07 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeScroll } },
-};
+import { useReducedMotion } from '../hooks/useReducedMotion';
+import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 function AboutStatCell({
   target,
@@ -48,6 +39,9 @@ function AboutStatCell({
 
 export function AboutPage() {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
+  const valueCardVariants = getFadeUp(shouldReduce, { y: 20, duration: 0.5 });
+  const projectCardVariants = getFadeUp(shouldReduce, { y: 20, duration: 0.5 });
   const {
     accent,
     accentBorder30,
@@ -84,10 +78,10 @@ export function AboutPage() {
         <motion.div
           className="mx-auto max-w-6xl overflow-hidden rounded-xl border border-[var(--stats-band-border)] bg-[var(--stats-band-bg)]"
           style={{ borderWidth: '0.5px', borderRadius: 12 }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease: easeScroll }}
+          variants={getFadeUp(shouldReduce, { y: 20 })}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
         >
           <div className="flex flex-col md:flex-row md:flex-nowrap">
             {statsBarConfig.map((s) => (
@@ -101,10 +95,10 @@ export function AboutPage() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-12 lg:flex-row lg:gap-16">
           <motion.div
             className="flex-1"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll }}
+            variants={getFadeUp(shouldReduce, { y: 20 })}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
           >
             <p className="mb-3 text-sm font-medium uppercase tracking-wide text-[var(--blue-text)]">
               {t('pages.about.missionLabel')}
@@ -130,10 +124,10 @@ export function AboutPage() {
               borderRadius: 16,
               padding: 40,
             }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll, delay: 0.08 }}
+            variants={getFadeUp(shouldReduce, { y: 20, delay: 0.08 })}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
           >
             <p className="text-lg italic leading-[1.7] text-[var(--text-2)]">{t('pages.about.quote')}</p>
             <div className="mt-6 border-t border-[var(--border)] pt-4 text-[13px] text-[var(--blue-text)]" style={{ borderTopWidth: '0.5px' }}>
@@ -147,32 +141,36 @@ export function AboutPage() {
         <div className="mx-auto max-w-6xl">
           <motion.div
             className="mb-14 text-center"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, ease: easeScroll }}
+            variants={getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
           >
             <h2 className="mb-3 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.about.valuesTitle')}</h2>
             <p className="text-lg text-[var(--text-2)]">{t('pages.about.valuesSubtitle')}</p>
           </motion.div>
           <motion.div
             className="grid grid-cols-1 gap-6 sm:grid-cols-2"
-            variants={gridVariants}
+            variants={getStagger(shouldReduce)}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, margin: '-60px' }}
           >
             {valueDefs.map((value, index) => {
               const p = `pages.about.${value.key}`;
               return (
                 <motion.div
                   key={value.key}
-                  variants={cardVariants}
-                  whileHover={{
-                    y: -4,
-                    borderColor: accentBorder30,
-                    transition: { duration: 0.2 },
-                  }}
+                  variants={valueCardVariants}
+                  whileHover={
+                    shouldReduce
+                      ? {}
+                      : {
+                          y: -4,
+                          borderColor: accentBorder30,
+                          transition: { duration: 0.2 },
+                        }
+                  }
                   className="relative rounded-xl border border-[var(--border)] bg-[var(--bg-1)]"
                   style={{ borderWidth: '0.5px', padding: '32px 28px' }}
                 >
@@ -210,10 +208,10 @@ export function AboutPage() {
         <div className="mx-auto max-w-6xl">
           <motion.div
             className="mb-14 text-center"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, ease: easeScroll }}
+            variants={getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
           >
             <p className="mb-3 text-sm font-medium uppercase tracking-wide text-[var(--blue-text)]">
               {t('pages.about.processLabel')}
@@ -230,10 +228,10 @@ export function AboutPage() {
                   <Fragment key={stepKey}>
                     <motion.div
                       className="flex w-[200px] shrink-0 flex-col items-center text-center"
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: '-80px' }}
-                      transition={{ duration: 0.45, delay: i * 0.06, ease: easeScroll }}
+                      variants={getFadeUp(shouldReduce, { y: 16, duration: 0.45, delay: i * 0.06 })}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, margin: '-60px' }}
                     >
                       <div
                         className="flex size-10 items-center justify-center rounded-full text-base font-bold text-[var(--blue-text)]"
@@ -272,10 +270,10 @@ export function AboutPage() {
               return (
                 <motion.div
                   key={stepKey}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.45, delay: i * 0.05, ease: easeScroll }}
+                  variants={getFadeUp(shouldReduce, { y: 16, duration: 0.45, delay: i * 0.05 })}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: '-60px' }}
                   className="flex gap-4"
                 >
                   <div
@@ -304,20 +302,20 @@ export function AboutPage() {
         <div className="mx-auto max-w-6xl">
           <motion.div
             className="mb-14 text-center"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, ease: easeScroll }}
+            variants={getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
           >
             <h2 className="mb-3 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.about.workTitle')}</h2>
             <p className="text-lg text-[var(--text-2)]">{t('pages.about.workSubtitle')}</p>
           </motion.div>
           <motion.div
             className="grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
-            variants={gridVariants}
+            variants={getStagger(shouldReduce)}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, margin: '-60px' }}
           >
             {projects.map((project) => {
               const base = `projects.byId.${project.id}`;
@@ -329,16 +327,16 @@ export function AboutPage() {
                 <Wrapper
                   key={project.id}
                   {...wrapperProps}
-                  variants={cardVariants}
+                  variants={projectCardVariants}
                   whileHover={
-                    project.url
+                    project.url && !shouldReduce
                       ? {
                           y: -4,
                           borderColor: accentBorder30,
                           boxShadow: projHoverShadow,
                           transition: { duration: 0.2 },
                         }
-                      : undefined
+                      : {}
                   }
                   className="group flex flex-col items-center gap-4 rounded-xl border border-[var(--border)] bg-[var(--bg-1)] p-8"
                   style={{ borderWidth: '0.5px' }}
@@ -374,10 +372,10 @@ export function AboutPage() {
       <section className="border-t border-[var(--border)] bg-[var(--bg-2)] px-6 py-20 lg:px-8" style={{ borderTopWidth: '0.5px' }}>
         <div className="mx-auto max-w-4xl text-center">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll }}
+            variants={getFadeUp(shouldReduce)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
           >
             <Heart className="mx-auto mb-4 size-10 text-[var(--blue-text)]" strokeWidth={1.75} />
             <h2 className="mb-4 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.about.finalTitle')}</h2>

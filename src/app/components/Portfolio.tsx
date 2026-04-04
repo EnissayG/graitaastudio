@@ -3,12 +3,17 @@ import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { projects } from '../data/projects';
-import { easeScroll } from '../lib/motionPresets';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useAccentColor } from '../hooks/useAccentColor';
+import {
+  getExternalLinkIconVariants,
+  getFadeUp,
+  getLinkGapHoverVariants,
+  getSlideInX,
+  getStagger,
+} from '../utils/motionVariants';
 
 const MotionLink = motion(Link);
-
-const ease = easeScroll;
 
 function projectTags(t: (k: string, o?: object) => unknown, id: number): string[] {
   const raw = t(`projects.byId.${id}.tags`, { returnObjects: true });
@@ -17,42 +22,37 @@ function projectTags(t: (k: string, o?: object) => unknown, id: number): string[
 
 export function Portfolio() {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
   const { accentOverlay08 } = useAccentColor();
+
+  const linkGap = getLinkGapHoverVariants(shouldReduce);
+  const iconVar = getExternalLinkIconVariants(shouldReduce);
 
   return (
     <section id="portfolio" className="bg-[var(--bg-2)] px-6 py-20 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <motion.div
           className="mb-14 text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease }}
+          variants={getStagger(shouldReduce)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
         >
           <motion.span
             className="mb-2 block text-sm font-medium uppercase tracking-wide text-[var(--blue-text)]"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease, delay: 0 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('portfolioSection.eyebrow')}
           </motion.span>
           <motion.h2
             className="mb-2 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease, delay: 0.08 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('portfolioSection.title')}
           </motion.h2>
           <motion.p
             className="mx-auto max-w-xl text-base text-[var(--text-2)]"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease, delay: 0.16 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('portfolioSection.subtitle')}
           </motion.p>
@@ -69,19 +69,21 @@ export function Portfolio() {
             const imageBlock = (
               <motion.div
                 className="relative flex-1"
-                initial={{ opacity: 0, x: imageLeft ? -28 : 28 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.6, ease }}
+                variants={getSlideInX(shouldReduce, imageLeft ? 'left' : 'right', 28)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-60px' }}
               >
                 <motion.div
                   className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[var(--border)]"
                   style={{ borderWidth: '0.5px' }}
                   initial="rest"
-                  whileHover="hover"
+                  whileHover={shouldReduce ? 'rest' : 'hover'}
                   variants={{
                     rest: { scale: 1 },
-                    hover: { scale: 1.02, transition: { duration: 0.4, ease: 'easeOut' } },
+                    hover: shouldReduce
+                      ? { scale: 1 }
+                      : { scale: 1.02, transition: { duration: 0.4, ease: 'easeOut' } },
                   }}
                 >
                   <img
@@ -94,7 +96,9 @@ export function Portfolio() {
                     style={{ backgroundColor: accentOverlay08 }}
                     variants={{
                       rest: { opacity: 0 },
-                      hover: { opacity: 1, transition: { duration: 0.3 } },
+                      hover: shouldReduce
+                        ? { opacity: 0 }
+                        : { opacity: 1, transition: { duration: 0.3 } },
                     }}
                   />
                 </motion.div>
@@ -104,10 +108,10 @@ export function Portfolio() {
             const textBlock = (
               <motion.div
                 className="flex flex-1 flex-col justify-center gap-3"
-                initial={{ opacity: 0, x: imageLeft ? 20 : -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.6, ease }}
+                variants={getSlideInX(shouldReduce, imageLeft ? 'right' : 'left', 20)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-60px' }}
               >
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
@@ -147,20 +151,11 @@ export function Portfolio() {
                     rel="noopener noreferrer"
                     className="mt-1 inline-flex items-center text-sm font-medium text-[var(--blue-text)]"
                     initial="rest"
-                    whileHover="hover"
-                    variants={{
-                      rest: { gap: '6px' },
-                      hover: { gap: '10px', transition: { duration: 0.2 } },
-                    }}
+                    whileHover={shouldReduce ? 'rest' : 'hover'}
+                    variants={linkGap}
                   >
                     {t('portfolioSection.viewSite')}
-                    <motion.span
-                      className="inline-flex"
-                      variants={{
-                        rest: { rotate: 45 },
-                        hover: { rotate: 0, transition: { duration: 0.2 } },
-                      }}
-                    >
+                    <motion.span className="inline-flex" variants={iconVar}>
                       <ExternalLink size={14} className="shrink-0" />
                     </motion.span>
                   </motion.a>
@@ -169,20 +164,11 @@ export function Portfolio() {
                     to={href}
                     className="mt-1 inline-flex items-center text-sm font-medium text-[var(--blue-text)]"
                     initial="rest"
-                    whileHover="hover"
-                    variants={{
-                      rest: { gap: '6px' },
-                      hover: { gap: '10px', transition: { duration: 0.2 } },
-                    }}
+                    whileHover={shouldReduce ? 'rest' : 'hover'}
+                    variants={linkGap}
                   >
                     {t('portfolioSection.viewProject')}
-                    <motion.span
-                      className="inline-flex"
-                      variants={{
-                        rest: { rotate: 45 },
-                        hover: { rotate: 0, transition: { duration: 0.2 } },
-                      }}
-                    >
+                    <motion.span className="inline-flex" variants={iconVar}>
                       <ExternalLink size={14} className="shrink-0" />
                     </motion.span>
                   </MotionLink>
@@ -213,10 +199,10 @@ export function Portfolio() {
 
         <motion.div
           className="text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease }}
+          variants={getFadeUp(shouldReduce)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
         >
           <Link
             to="/portfolio"

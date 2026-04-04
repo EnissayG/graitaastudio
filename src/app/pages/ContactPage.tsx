@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
-import { easeScroll } from '../lib/motionPresets';
 import { useDarkMode } from '../hooks/useDarkMode';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useAccentColor } from '../hooks/useAccentColor';
+import { getFadeUp } from '../utils/motionVariants';
 
 const FORM_NAME = 'contact';
 
@@ -22,8 +23,10 @@ const faqIds = [1, 2, 3] as const;
 
 export function ContactPage() {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
   const { isDark } = useDarkMode();
   const { accentBorder30, faqOpenBg } = useAccentColor();
+  const faqMotionTransition = shouldReduce ? { duration: 0.01 } : { duration: 0.25, ease: 'easeInOut' as const };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -105,10 +108,10 @@ export function ContactPage() {
           <div className="grid gap-12 lg:grid-cols-5">
             <div className="lg:col-span-3">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.55, ease: easeScroll }}
+                variants={getFadeUp(shouldReduce, { y: 20 })}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-60px' }}
                 className="rounded-xl border border-[var(--border)] bg-[var(--bg-1)] p-8 shadow-sm lg:p-10"
                 style={{ borderWidth: '0.5px' }}
               >
@@ -215,7 +218,11 @@ export function ContactPage() {
                     <label className={`${labelClass} mb-3`}>{t('pages.contact.projectType')}</label>
                     <div className="flex flex-wrap gap-2">
                       {serviceOptions.map((opt) => (
-                        <motion.label key={opt.value} whileTap={{ scale: 0.97 }} className="cursor-pointer">
+                        <motion.label
+                          key={opt.value}
+                          whileTap={shouldReduce ? { scale: 0.98 } : { scale: 0.97 }}
+                          className="cursor-pointer"
+                        >
                           <input type="checkbox" name="service" value={opt.value} className="peer sr-only" />
                           <span
                             className="inline-flex rounded-md border border-[var(--border)] bg-transparent px-4 py-2 text-[13px] text-[var(--text-2)] transition-colors duration-200 peer-checked:border-[var(--blue)] peer-checked:bg-[var(--blue-dim)] peer-checked:font-medium peer-checked:text-[var(--blue-text)]"
@@ -250,7 +257,9 @@ export function ContactPage() {
                     disabled={status === 'sending'}
                     className="group relative w-full overflow-hidden rounded-lg bg-[var(--blue)] px-8 py-4 text-base font-medium text-[var(--on-accent)] transition-colors hover:bg-[var(--blue-hover)] disabled:opacity-70"
                     initial="rest"
-                    whileHover={status === 'sending' ? undefined : 'hover'}
+                    whileHover={
+                      status === 'sending' || shouldReduce ? undefined : 'hover'
+                    }
                     variants={{ rest: {}, hover: {} }}
                   >
                     <motion.span
@@ -259,11 +268,13 @@ export function ContactPage() {
                         background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
                       }}
                       variants={{
-                        rest: { x: '-100%' },
-                        hover: {
-                          x: '100%',
-                          transition: { duration: 0.6, ease: 'easeInOut' },
-                        },
+                        rest: { x: shouldReduce ? '0%' : '-100%' },
+                        hover: shouldReduce
+                          ? { x: '0%' }
+                          : {
+                              x: '100%',
+                              transition: { duration: 0.6, ease: 'easeInOut' },
+                            },
                       }}
                     />
                     <span className="relative z-10 flex items-center justify-center gap-2">
@@ -283,10 +294,10 @@ export function ContactPage() {
 
             <div className="space-y-6 lg:col-span-2">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.55, delay: 0.1, ease: easeScroll }}
+                variants={getFadeUp(shouldReduce, { y: 20, delay: 0.1 })}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-60px' }}
               >
                 <h3 className="mb-6 text-xl font-semibold text-[var(--text-1)]">{t('pages.contact.contactInfoTitle')}</h3>
                 <div className="space-y-4">
@@ -322,10 +333,10 @@ export function ContactPage() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.55, delay: 0.15, ease: easeScroll }}
+                variants={getFadeUp(shouldReduce, { y: 20, delay: 0.15 })}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-60px' }}
                 className={`rounded-xl p-8 ${
                   isDark
                     ? 'border border-[var(--blue-border)] bg-[var(--bg-2)]'
@@ -346,18 +357,24 @@ export function ContactPage() {
                       ? 'bg-[var(--blue)] text-[var(--on-accent)] hover:bg-[var(--blue-hover)]'
                       : 'bg-white text-[var(--blue)] hover:bg-white/95'
                   }`}
-                  animate={{
-                    boxShadow: isDark
-                      ? [
-                          '0 0 0 0px rgba(96,165,250,0.35)',
-                          '0 0 0 6px rgba(96,165,250,0)',
-                        ]
-                      : [
-                          '0 0 0 0px rgba(255,255,255,0.3)',
-                          '0 0 0 6px rgba(255,255,255,0)',
-                        ],
-                  }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+                  animate={
+                    shouldReduce
+                      ? { boxShadow: 'none' }
+                      : {
+                          boxShadow: isDark
+                            ? [
+                                '0 0 0 0px rgba(96,165,250,0.35)',
+                                '0 0 0 6px rgba(96,165,250,0)',
+                              ]
+                            : [
+                                '0 0 0 0px rgba(255,255,255,0.3)',
+                                '0 0 0 6px rgba(255,255,255,0)',
+                              ],
+                        }
+                  }
+                  transition={
+                    shouldReduce ? { duration: 0 } : { duration: 1.5, repeat: Infinity }
+                  }
                 >
                   {t('pages.contact.sidebarCta')}
                 </motion.a>
@@ -371,10 +388,10 @@ export function ContactPage() {
         <div className="mx-auto max-w-4xl">
           <motion.div
             className="mb-12 text-center"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, ease: easeScroll }}
+            variants={getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
           >
             <h2 className="mb-4 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.contact.faqTitle')}</h2>
             <p className="text-[var(--text-2)]">{t('pages.contact.faqSubtitle')}</p>
@@ -386,10 +403,10 @@ export function ContactPage() {
               return (
                 <motion.div
                   key={id}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  variants={getFadeUp(shouldReduce, { y: 12, duration: 0.45, delay: index * 0.05 })}
+                  initial="hidden"
+                  whileInView="show"
                   viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.45, delay: index * 0.05, ease: easeScroll }}
                   className={`rounded-[10px] border border-[var(--border)] bg-[var(--bg-1)] transition-all duration-200 ${
                     isOpen ? '' : 'hover:border-[var(--border-hover)]'
                   }`}
@@ -409,7 +426,7 @@ export function ContactPage() {
                     <motion.span
                       className="inline-flex shrink-0 text-[var(--blue-text)]"
                       animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ duration: shouldReduce ? 0 : 0.2 }}
                       aria-hidden
                     >
                       <Plus size={16} strokeWidth={2} />
@@ -421,7 +438,7 @@ export function ContactPage() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        transition={faqMotionTransition}
                         className="overflow-hidden"
                       >
                         <p className="px-5 pb-[18px] pt-0 leading-relaxed text-[var(--text-2)]">{t(`${p}.a`)}</p>

@@ -94,4 +94,34 @@ body {
   }
 }
 
+/* Mobile / reduced motion: pure CSS decorations & heavy transitions */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .orb-1,
+  .orb-2,
+  .ring-2,
+  .ring-3,
+  .dot-1,
+  .dot-2,
+  .dot-3 {
+    display: none !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .theme-toggle,
+  .nav-cta,
+  button,
+  a {
+    transition-duration: 150ms !important;
+  }
+
+  body {
+    transition-duration: 300ms !important;
+  }
+}
+
 @import './theme.css';

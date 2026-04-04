@@ -1,11 +1,29 @@
 import { motion } from 'motion/react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 export function BackgroundEffects() {
+  const shouldReduce = useReducedMotion();
+
+  if (shouldReduce) {
+    return (
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div
+          className="absolute h-[min(80vw,600px)] w-[min(80vw,600px)] rounded-full opacity-[0.07] blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, var(--brand) 0%, transparent 70%)',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      {/* Un seul blob principal, mouvement lent et discret */}
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <motion.div
-        className="absolute w-[min(80vw,600px)] h-[min(80vw,600px)] rounded-full opacity-[0.07] blur-3xl"
+        className="absolute h-[min(80vw,600px)] w-[min(80vw,600px)] rounded-full opacity-[0.07] blur-3xl"
         style={{
           background: 'radial-gradient(circle, var(--brand) 0%, transparent 70%)',
           top: '50%',

@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { Smartphone, Zap, Palette, Search, Code2, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
-import { easeScroll } from '../lib/motionPresets';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useAccentColor } from '../hooks/useAccentColor';
+import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 type ServiceDef = {
   icon: LucideIcon;
@@ -21,18 +21,7 @@ const serviceDefs: ServiceDef[] = [
   { icon: ShoppingBag, keyPrefix: 'ecommerce' },
 ];
 
-const gridVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.07 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeScroll } },
-};
+const cardItemVariants = (shouldReduce: boolean) => getFadeUp(shouldReduce, { y: 20, duration: 0.5 });
 
 function ServiceCard({
   title,
@@ -41,6 +30,7 @@ function ServiceCard({
   icon: Icon,
   hoverBorder,
   hoverShadow,
+  shouldReduce,
 }: {
   title: string;
   description: string;
@@ -48,19 +38,20 @@ function ServiceCard({
   icon: LucideIcon;
   hoverBorder: string;
   hoverShadow: string;
+  shouldReduce: boolean;
 }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <motion.div
-      variants={cardVariants}
-      onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
-      whileHover={{
-        y: -5,
-        borderColor: hoverBorder,
-        boxShadow: hoverShadow,
-      }}
+      variants={cardItemVariants(shouldReduce)}
+      whileHover={
+        shouldReduce
+          ? {}
+          : {
+              y: -5,
+              borderColor: hoverBorder,
+              boxShadow: hoverShadow,
+            }
+      }
       transition={{ duration: 0.2 }}
       className="rounded-xl border border-[var(--border)] bg-[var(--bg-1)] px-6 py-7"
       style={{ borderWidth: '0.5px' }}
@@ -68,8 +59,14 @@ function ServiceCard({
       <motion.div
         className="mb-4 flex size-10 items-center justify-center rounded-[10px] border border-[var(--blue-border)] bg-[var(--blue-dim)] text-[var(--blue)]"
         style={{ borderWidth: '0.5px' }}
-        animate={hovered ? { rotate: [0, -8, 8, 0] } : { rotate: 0 }}
-        transition={{ duration: 0.4 }}
+        whileHover={
+          shouldReduce
+            ? {}
+            : {
+                rotate: [0, -8, 8, 0],
+                transition: { duration: 0.4 },
+              }
+        }
       >
         <Icon size={20} strokeWidth={1.75} />
       </motion.div>
@@ -92,6 +89,7 @@ function ServiceCard({
 
 export function Services() {
   const { t } = useTranslation();
+  const shouldReduce = useReducedMotion();
   const { accentBorder30, accentShadow08 } = useAccentColor();
   const hoverShadow = `0 12px 32px ${accentShadow08}`;
 
@@ -100,35 +98,26 @@ export function Services() {
       <div className="mx-auto max-w-7xl">
         <motion.div
           className="mx-auto mb-14 max-w-3xl text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease: easeScroll }}
+          variants={getStagger(shouldReduce)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
         >
           <motion.span
             className="mb-3 block text-sm font-medium uppercase tracking-wide text-[var(--blue)]"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll, delay: 0 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('servicesHome.eyebrow')}
           </motion.span>
           <motion.h2
             className="mb-4 text-3xl font-semibold text-[var(--text-1)] lg:text-4xl"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll, delay: 0.08 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('servicesHome.title')}
           </motion.h2>
           <motion.p
             className="text-lg leading-relaxed text-[var(--text-2)]"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll, delay: 0.16 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('servicesHome.subtitle')}
           </motion.p>
@@ -136,10 +125,10 @@ export function Services() {
 
         <motion.div
           className="mb-16 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3"
-          variants={gridVariants}
+          variants={getStagger(shouldReduce)}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, margin: '-60px' }}
         >
           {serviceDefs.map((def) => {
             const p = `servicesHome.${def.keyPrefix}`;
@@ -152,6 +141,7 @@ export function Services() {
                 features={[t(`${p}.f1`), t(`${p}.f2`)]}
                 hoverBorder={accentBorder30}
                 hoverShadow={hoverShadow}
+                shouldReduce={shouldReduce}
               />
             );
           })}
@@ -159,10 +149,10 @@ export function Services() {
 
         <motion.div
           className="text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease: easeScroll }}
+          variants={getFadeUp(shouldReduce)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
         >
           <Link
             to="/services"

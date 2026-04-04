@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
 import { motion, useScroll, useSpring } from 'motion/react';
 import { useTranslation } from 'react-i18next';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { ThemeToggle } from './ThemeToggle';
 import { ShimmerCTA } from './ShimmerCTA';
@@ -75,7 +76,7 @@ export function Header() {
           <div className="hidden items-center gap-3 md:flex">
             <LanguageSwitcher />
             <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
-            <ShimmerCTA to="/contact" className="rounded-lg px-5 py-2.5 text-sm font-medium">
+            <ShimmerCTA to="/contact" className="nav-cta rounded-lg px-5 py-2.5 text-sm font-medium">
               {t('header.startProject')}
             </ShimmerCTA>
           </div>
@@ -111,7 +112,7 @@ export function Header() {
               <ShimmerCTA
                 to="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="mt-3 w-full justify-center rounded-lg px-5 py-2.5 text-center text-sm font-medium"
+                className="nav-cta mt-3 w-full justify-center rounded-lg px-5 py-2.5 text-center text-sm font-medium"
               >
                 {t('header.startProject')}
               </ShimmerCTA>

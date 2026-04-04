@@ -1,60 +1,41 @@
 import { Star, Quote } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
-import { easeScroll } from '../lib/motionPresets';
+import { useReducedMotion } from '../hooks/useReducedMotion';
+import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 const testimonialKeys = ['t1', 't2', 't3'] as const;
 
 export function Testimonials() {
   const { t } = useTranslation();
-
-  const gridVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.07 },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeScroll } },
-  };
+  const shouldReduce = useReducedMotion();
+  const cardVariants = getFadeUp(shouldReduce, { y: 20, duration: 0.5 });
 
   return (
     <section id="testimonials" className="bg-[var(--bg-2)] px-6 py-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <motion.div
           className="mx-auto mb-16 max-w-2xl text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease: easeScroll }}
+          variants={getStagger(shouldReduce)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
         >
           <motion.span
             className="mb-3 block text-sm uppercase tracking-wide text-[var(--brand-foreground)]"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll, delay: 0 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('testimonials.eyebrow')}
           </motion.span>
           <motion.h2
             className="mb-4 text-3xl font-semibold text-foreground lg:text-4xl"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll, delay: 0.08 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('testimonials.title')}
           </motion.h2>
           <motion.p
             className="text-lg leading-relaxed text-muted-foreground"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: easeScroll, delay: 0.16 }}
+            variants={getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('testimonials.subtitle')}
           </motion.p>
@@ -62,10 +43,10 @@ export function Testimonials() {
 
         <motion.div
           className="grid gap-8 md:grid-cols-3"
-          variants={gridVariants}
+          variants={getStagger(shouldReduce)}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, margin: '-60px' }}
         >
           {testimonialKeys.map((key) => {
             const p = `testimonials.${key}`;

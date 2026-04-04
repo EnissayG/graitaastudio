@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Languages } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const locales = [
   { code: 'fr' as const, label: 'FR' },
@@ -9,6 +10,7 @@ const locales = [
 
 export function LanguageSwitcher() {
   const { i18n, t } = useTranslation();
+  const shouldReduce = useReducedMotion();
   const active = i18n.language?.toLowerCase().startsWith('en') ? 'en' : 'fr';
 
   return (
@@ -24,7 +26,7 @@ export function LanguageSwitcher() {
           key={code}
           type="button"
           onClick={() => void i18n.changeLanguage(code)}
-          whileTap={{ scale: 0.95 }}
+          whileTap={shouldReduce ? { scale: 0.98 } : { scale: 0.95 }}
           className={`min-w-[2.25rem] rounded-md px-2 py-1.5 text-xs font-medium transition-colors ${
             active === code
               ? 'bg-[var(--blue-dim)] text-[var(--blue-text)]'
