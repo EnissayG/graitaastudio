@@ -1,18 +1,39 @@
-import { Mail, MapPin, Send, MessageCircle, CheckCircle, AlertCircle } from "lucide-react";
-import { motion } from "motion/react";
-import { useState, useRef, useEffect } from "react";
+import { Mail, MapPin, Send, MessageCircle, CheckCircle, AlertCircle, Plus } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { PageHero } from '../components/PageHero';
+import { easeScroll } from '../lib/motionPresets';
+import { useDarkMode } from '../hooks/useDarkMode';
+import { useAccentColor } from '../hooks/useAccentColor';
 
 const FORM_NAME = 'contact';
 
+const serviceOptions = [
+  { value: 'new_site', labelKey: 'pages.contact.services.new_site' },
+  { value: 'redesign', labelKey: 'pages.contact.services.redesign' },
+  { value: 'ecommerce', labelKey: 'pages.contact.services.ecommerce' },
+  { value: 'webapp', labelKey: 'pages.contact.services.webapp' },
+  { value: 'consultation', labelKey: 'pages.contact.services.consultation' },
+  { value: 'other', labelKey: 'pages.contact.services.other' },
+] as const;
+
+const faqIds = [1, 2, 3] as const;
+
 export function ContactPage() {
+  const { t } = useTranslation();
+  const { isDark } = useDarkMode();
+  const { accentBorder30, faqOpenBg } = useAccentColor();
+
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-    "bot-field": "",
+    name: '',
+    email: '',
+    company: '',
+    message: '',
+    'bot-field': '',
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,7 +51,9 @@ export function ContactPage() {
 
     try {
       const res = await fetch('/', { method: 'POST', body });
-      const isLocalDev = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      const isLocalDev =
+        typeof window !== 'undefined' &&
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
       if (res.ok || res.status === 302 || (res.status === 404 && isLocalDev)) {
         setStatus('success');
         setFormData({ name: '', email: '', company: '', message: '', 'bot-field': '' });
@@ -51,73 +74,48 @@ export function ContactPage() {
 
   const contactInfo = [
     {
-      icon: <Mail size={24} />,
-      title: "Email",
-      value: "graitaastudio@gmail.com",
-      link: "mailto:graitaastudio@gmail.com",
+      icon: <Mail size={24} strokeWidth={1.75} />,
+      titleKey: 'pages.contact.emailLabel' as const,
+      value: 'graitaastudio@gmail.com',
+      link: 'mailto:graitaastudio@gmail.com',
     },
     {
-      icon: <MapPin size={24} />,
-      title: "Localisation",
-      value: "Montréal, Québec",
+      icon: <MapPin size={24} strokeWidth={1.75} />,
+      titleKey: 'pages.contact.locationLabel' as const,
+      valueKey: 'pages.contact.locationValue' as const,
       link: null,
     },
-  ];
+  ] as const;
 
-  const services = [
-    "Nouveau site web",
-    "Refonte de site existant",
-    "E-Commerce",
-    "Application web",
-    "Consultation",
-    "Autre",
-  ];
+  const inputClass =
+    'w-full rounded-lg border border-[var(--border)] bg-[var(--bg-1)] px-4 py-3 text-sm text-[var(--text-1)] transition-[border-color,box-shadow] duration-200 focus:border-[var(--blue)] focus:outline-none focus:shadow-[0_0_0_3px_var(--blue-dim)]';
+
+  const labelClass = 'mb-1.5 block text-[13px] font-medium text-[var(--text-2)]';
 
   return (
     <div className="pt-24">
-      {/* Hero Section */}
-      <section className="py-20 px-6 lg:px-8 bg-muted/40">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="text-[var(--brand-foreground)] tracking-wide uppercase text-sm mb-3 block">
-              Contact
-            </span>
-            <h1 className="text-3xl lg:text-4xl text-foreground font-semibold mb-6">
-              Discutons de votre projet
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Vous avez une idée de projet ? Une question ? Nous sommes là pour vous écouter
-              et vous accompagner dans la réalisation de votre vision digitale.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow={t('pages.contact.eyebrow')}
+        title={t('pages.contact.title')}
+        subtitle={t('pages.contact.subtitle')}
+      />
 
-      {/* Contact Form & Info */}
-      <section className="py-24 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-5 gap-12">
-            {/* Contact Form */}
+      <section className="bg-[var(--bg-1)] px-6 py-16 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-12 lg:grid-cols-5">
             <div className="lg:col-span-3">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="bg-background p-10 rounded-3xl border border-border shadow-lg"
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.55, ease: easeScroll }}
+                className="rounded-xl border border-[var(--border)] bg-[var(--bg-1)] p-8 shadow-sm lg:p-10"
+                style={{ borderWidth: '0.5px' }}
               >
                 <div className="mb-8">
-                  <MessageCircle className="w-10 h-10 text-[var(--brand)] mb-4" />
-                  <h2 className="text-2xl text-foreground font-semibold mb-3">
-                    Envoyez-nous un message
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Remplissez le formulaire ci-dessous et nous vous répondrons dans les 24 heures.
-                  </p>
+                  <MessageCircle className="mb-4 size-10 text-[var(--blue-text)]" strokeWidth={1.75} />
+                  <h2 className="mb-3 text-2xl font-semibold text-[var(--text-1)]">{t('pages.contact.formTitle')}</h2>
+                  <p className="text-[var(--text-2)]">{t('pages.contact.formSubtitle')}</p>
                 </div>
 
                 <form
@@ -131,35 +129,41 @@ export function ContactPage() {
                 >
                   <input type="hidden" name="form-name" value={FORM_NAME} />
                   <p hidden>
-                    <label>Ne pas remplir : <input name="bot-field" value={formData['bot-field']} onChange={handleChange} /></label>
+                    <label>
+                      {t('pages.contact.honeypot')}{' '}
+                      <input name="bot-field" value={formData['bot-field']} onChange={handleChange} />
+                    </label>
                   </p>
                   <div ref={feedbackRef} aria-live="polite" className="min-h-[3rem]">
                     {status === 'success' && (
-                      <div className="flex items-start gap-3 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800">
-                        <CheckCircle size={22} className="flex-shrink-0 mt-0.5" />
+                      <div className="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 dark:border-green-800 dark:bg-green-950/40 dark:text-green-200">
+                        <CheckCircle size={22} className="mt-0.5 shrink-0" />
                         <div>
-                          <p className="font-medium">Message envoyé</p>
-                          <p className="text-sm mt-1">Nous vous recontacterons rapidement à l’adresse indiquée.</p>
+                          <p className="font-medium">{t('pages.contact.successTitle')}</p>
+                          <p className="mt-1 text-sm">{t('pages.contact.successBody')}</p>
                         </div>
                       </div>
                     )}
                     {status === 'error' && (
-                      <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800">
-                        <AlertCircle size={22} className="flex-shrink-0 mt-0.5" />
+                      <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
+                        <AlertCircle size={22} className="mt-0.5 shrink-0" />
                         <div>
-                          <p className="font-medium">Erreur d’envoi</p>
-                          <p className="text-sm mt-1">
-                            Vous pouvez nous écrire directement à{" "}
-                            <a href="mailto:graitaastudio@gmail.com" className="underline font-medium">graitaastudio@gmail.com</a>.
+                          <p className="font-medium">{t('pages.contact.errorTitle')}</p>
+                          <p className="mt-1 text-sm">
+                            {t('pages.contact.errorBody')}{' '}
+                            <a href="mailto:graitaastudio@gmail.com" className="font-medium underline">
+                              graitaastudio@gmail.com
+                            </a>
+                            .
                           </p>
                         </div>
                       </div>
                     )}
                   </div>
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid gap-6 md:grid-cols-2">
                     <div>
-                      <label htmlFor="name" className="block text-foreground mb-2">
-                        Nom complet *
+                      <label htmlFor="name" className={labelClass}>
+                        {t('pages.contact.name')}
                       </label>
                       <input
                         type="text"
@@ -168,13 +172,14 @@ export function ContactPage() {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-border focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-muted)] transition-all"
-                        placeholder="Jean Dupont"
+                        className={inputClass}
+                        style={{ borderWidth: '0.5px' }}
+                        placeholder={t('pages.contact.placeholderName')}
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-foreground mb-2">
-                        Email *
+                      <label htmlFor="email" className={labelClass}>
+                        {t('pages.contact.email')}
                       </label>
                       <input
                         type="email"
@@ -183,15 +188,16 @@ export function ContactPage() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-border focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-muted)] transition-all"
-                        placeholder="jean@exemple.com"
+                        className={inputClass}
+                        style={{ borderWidth: '0.5px' }}
+                        placeholder={t('pages.contact.placeholderEmail')}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="company" className="block text-foreground mb-2">
-                      Entreprise
+                    <label htmlFor="company" className={labelClass}>
+                      {t('pages.contact.company')}
                     </label>
                     <input
                       type="text"
@@ -199,36 +205,32 @@ export function ContactPage() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-border focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-muted)] transition-all"
-                      placeholder="Nom de votre entreprise"
+                      className={inputClass}
+                      style={{ borderWidth: '0.5px' }}
+                      placeholder={t('pages.contact.placeholderCompany')}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-foreground mb-3">
-                      Type de projet
-                    </label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {services.map((service, index) => (
-                        <label
-                          key={index}
-                          className="flex items-center space-x-2 cursor-pointer"
-                        >
-                          <input
-                            type="checkbox"
-                            name="service"
-                            value={service}
-                            className="w-4 h-4 text-[var(--brand)] border-border rounded focus:ring-[var(--brand)]"
-                          />
-                          <span className="text-sm text-foreground">{service}</span>
-                        </label>
+                    <label className={`${labelClass} mb-3`}>{t('pages.contact.projectType')}</label>
+                    <div className="flex flex-wrap gap-2">
+                      {serviceOptions.map((opt) => (
+                        <motion.label key={opt.value} whileTap={{ scale: 0.97 }} className="cursor-pointer">
+                          <input type="checkbox" name="service" value={opt.value} className="peer sr-only" />
+                          <span
+                            className="inline-flex rounded-md border border-[var(--border)] bg-transparent px-4 py-2 text-[13px] text-[var(--text-2)] transition-colors duration-200 peer-checked:border-[var(--blue)] peer-checked:bg-[var(--blue-dim)] peer-checked:font-medium peer-checked:text-[var(--blue-text)]"
+                            style={{ borderWidth: '0.5px', borderRadius: 6, padding: '8px 16px' }}
+                          >
+                            {t(opt.labelKey)}
+                          </span>
+                        </motion.label>
                       ))}
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-foreground mb-2">
-                      Message *
+                    <label htmlFor="message" className={labelClass}>
+                      {t('pages.contact.message')}
                     </label>
                     <textarea
                       id="message"
@@ -237,61 +239,80 @@ export function ContactPage() {
                       value={formData.message}
                       onChange={handleChange}
                       rows={6}
-                      className="w-full px-4 py-3 rounded-xl border border-border focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-muted)] transition-all resize-none"
-                      placeholder="Parlez-nous de votre projet..."
+                      className={`${inputClass} resize-none`}
+                      style={{ borderWidth: '0.5px' }}
+                      placeholder={t('pages.contact.placeholderMessage')}
                     />
                   </div>
 
-                  <button
+                  <motion.button
                     type="submit"
                     disabled={status === 'sending'}
-                    className="w-full bg-[var(--brand)] text-white px-8 py-4 rounded-xl hover:bg-[var(--brand-hover)] transition-colors flex items-center justify-center gap-2 text-base font-medium group disabled:opacity-70"
+                    className="group relative w-full overflow-hidden rounded-lg bg-[var(--blue)] px-8 py-4 text-base font-medium text-[var(--on-accent)] transition-colors hover:bg-[var(--blue-hover)] disabled:opacity-70"
+                    initial="rest"
+                    whileHover={status === 'sending' ? undefined : 'hover'}
+                    variants={{ rest: {}, hover: {} }}
                   >
-                    {status === 'sending' ? (
-                      <span>Envoi en cours...</span>
-                    ) : (
-                      <>
-                        <span>Envoyer le message</span>
-                        <Send size={20} className="group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
+                    <motion.span
+                      className="pointer-events-none absolute inset-0 z-0"
+                      style={{
+                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+                      }}
+                      variants={{
+                        rest: { x: '-100%' },
+                        hover: {
+                          x: '100%',
+                          transition: { duration: 0.6, ease: 'easeInOut' },
+                        },
+                      }}
+                    />
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      {status === 'sending' ? (
+                        <span>{t('pages.contact.sending')}</span>
+                      ) : (
+                        <>
+                          <span>{t('pages.contact.submit')}</span>
+                          <Send size={20} className="transition-transform group-hover:translate-x-1" />
+                        </>
+                      )}
+                    </span>
+                  </motion.button>
                 </form>
               </motion.div>
             </div>
 
-            {/* Contact Info */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="space-y-6 lg:col-span-2">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.55, delay: 0.1, ease: easeScroll }}
               >
-                <h3 className="text-xl text-foreground font-semibold mb-6">
-                  Informations de Contact
-                </h3>
+                <h3 className="mb-6 text-xl font-semibold text-[var(--text-1)]">{t('pages.contact.contactInfoTitle')}</h3>
                 <div className="space-y-4">
                   {contactInfo.map((info, index) => (
                     <div
                       key={index}
-                      className="bg-background p-6 rounded-2xl border border-border hover:border-[var(--brand-muted)] transition-colors"
+                      className="rounded-xl border border-[var(--border)] bg-[var(--bg-1)] p-6 transition-colors hover:border-[var(--blue-border)]"
+                      style={{ borderWidth: '0.5px' }}
                     >
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-[var(--brand-muted)] text-[var(--brand)] rounded-xl flex items-center justify-center flex-shrink-0">
+                        <div
+                          className="flex size-12 shrink-0 items-center justify-center rounded-[10px] border border-[var(--blue-border)] bg-[var(--blue-dim)] text-[var(--blue-text)]"
+                          style={{ borderWidth: '0.5px' }}
+                        >
                           {info.icon}
                         </div>
                         <div>
-                          <div className="text-sm text-muted-foreground mb-1">{info.title}</div>
+                          <div className="mb-1 text-sm text-[var(--text-3)]">{t(info.titleKey)}</div>
                           {info.link ? (
-                            <a
-                              href={info.link}
-                              className="text-foreground hover:text-[var(--brand)] transition-colors"
-                            >
+                            <a href={info.link} className="text-[var(--text-1)] transition-colors hover:text-[var(--blue-text)]">
                               {info.value}
                             </a>
                           ) : (
-                            <div className="text-foreground">{info.value}</div>
+                            <div className="text-[var(--text-1)]">
+                              {'valueKey' in info ? t(info.valueKey) : info.value}
+                            </div>
                           )}
                         </div>
                       </div>
@@ -300,69 +321,116 @@ export function ContactPage() {
                 </div>
               </motion.div>
 
-              {/* Additional Info */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="bg-[var(--brand)] p-8 rounded-2xl text-white"
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.55, delay: 0.15, ease: easeScroll }}
+                className={`rounded-xl p-8 ${
+                  isDark
+                    ? 'border border-[var(--blue-border)] bg-[var(--bg-2)]'
+                    : 'bg-[var(--blue)] text-white'
+                }`}
+                style={{ borderWidth: isDark ? '0.5px' : undefined }}
               >
-                <h3 className="text-2xl mb-4">Consultation Gratuite</h3>
-                <p className="text-white/90 mb-6">
-                  Profitez d'une consultation gratuite de 30 minutes pour discuter de votre projet
-                  et découvrir comment nous pouvons vous aider à atteindre vos objectifs.
+                <h3 className={`mb-4 text-2xl font-semibold ${isDark ? 'text-[var(--text-1)]' : ''}`}>
+                  {t('pages.contact.sidebarTitle')}
+                </h3>
+                <p className={`mb-6 ${isDark ? 'text-[var(--text-2)]' : 'text-white/90'}`}>
+                  {t('pages.contact.sidebarBody')}
                 </p>
-                <a
+                <motion.a
                   href="mailto:graitaastudio@gmail.com"
-                  className="inline-block bg-white text-blue-600 px-6 py-3 rounded-full hover:bg-gray-50 transition-colors"
+                  className={`inline-block rounded-lg px-6 py-3 font-medium transition-colors ${
+                    isDark
+                      ? 'bg-[var(--blue)] text-[var(--on-accent)] hover:bg-[var(--blue-hover)]'
+                      : 'bg-white text-[var(--blue)] hover:bg-white/95'
+                  }`}
+                  animate={{
+                    boxShadow: isDark
+                      ? [
+                          '0 0 0 0px rgba(96,165,250,0.35)',
+                          '0 0 0 6px rgba(96,165,250,0)',
+                        ]
+                      : [
+                          '0 0 0 0px rgba(255,255,255,0.3)',
+                          '0 0 0 6px rgba(255,255,255,0)',
+                        ],
+                  }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  Réserver maintenant
-                </a>
+                  {t('pages.contact.sidebarCta')}
+                </motion.a>
               </motion.div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-6 lg:px-8 bg-muted/50">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl lg:text-3xl text-foreground font-semibold mb-4">
-              Questions Fréquentes
-            </h2>
-            <p className="text-muted-foreground">
-              Voici quelques réponses aux questions les plus courantes
-            </p>
-          </div>
-          <div className="space-y-4">
-            {[
-              {
-                q: "Quel est le délai moyen pour créer un site web ?",
-                a: "En général, un site web prend entre 4 à 8 semaines, selon la complexité du projet.",
-              },
-              {
-                q: "Proposez-vous de la maintenance après le lancement ?",
-                a: "Oui, nous offrons des forfaits de maintenance pour assurer que votre site reste à jour et sécurisé.",
-              },
-              {
-                q: "Travaillez-vous avec des clients en dehors de Montréal ?",
-                a: "Absolument ! Nous travaillons avec des clients partout au Québec et au Canada.",
-              },
-            ].map((faq, index) => (
-              <details
-                key={index}
-                className="bg-background p-6 rounded-xl border border-border cursor-pointer group"
-              >
-                <summary className="text-foreground list-none flex items-center justify-between">
-                  {faq.q}
-                  <span className="text-[var(--brand)]">+</span>
-                </summary>
-                <p className="text-muted-foreground mt-4 leading-relaxed">
-                  {faq.a}
-                </p>
-              </details>
-            ))}
+      <section className="border-t border-[var(--border)] bg-[var(--bg-2)] px-6 py-16 lg:px-8 lg:py-20" style={{ borderTopWidth: '0.5px' }}>
+        <div className="mx-auto max-w-4xl">
+          <motion.div
+            className="mb-12 text-center"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.5, ease: easeScroll }}
+          >
+            <h2 className="mb-4 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.contact.faqTitle')}</h2>
+            <p className="text-[var(--text-2)]">{t('pages.contact.faqSubtitle')}</p>
+          </motion.div>
+          <div className="space-y-3">
+            {faqIds.map((id, index) => {
+              const p = `pages.contact.faq${id}`;
+              const isOpen = openFaq === index;
+              return (
+                <motion.div
+                  key={id}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.45, delay: index * 0.05, ease: easeScroll }}
+                  className={`rounded-[10px] border border-[var(--border)] bg-[var(--bg-1)] transition-all duration-200 ${
+                    isOpen ? '' : 'hover:border-[var(--border-hover)]'
+                  }`}
+                  style={{
+                    borderWidth: '0.5px',
+                    ...(isOpen
+                      ? { borderColor: accentBorder30, backgroundColor: faqOpenBg }
+                      : {}),
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : index)}
+                    className="flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-[18px] text-left text-[var(--text-1)]"
+                  >
+                    <span>{t(`${p}.q`)}</span>
+                    <motion.span
+                      className="inline-flex shrink-0 text-[var(--blue-text)]"
+                      animate={{ rotate: isOpen ? 45 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      aria-hidden
+                    >
+                      <Plus size={16} strokeWidth={2} />
+                    </motion.span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen ? (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                      >
+                        <p className="px-5 pb-[18px] pt-0 leading-relaxed text-[var(--text-2)]">{t(`${p}.a`)}</p>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

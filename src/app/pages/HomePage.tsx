@@ -1,4 +1,5 @@
 import { Hero } from "../components/Hero";
+import { StatsBar } from "../components/StatsBar";
 import { Services } from "../components/Services";
 import { Portfolio } from "../components/Portfolio";
 import { About } from "../components/About";
@@ -9,6 +10,7 @@ export function HomePage() {
   return (
     <>
       <Hero />
+      <StatsBar />
       <Services />
       <Portfolio />
       <About />

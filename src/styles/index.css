@@ -1,3 +1,97 @@
 @import './fonts.css';
 @import './tailwind.css';
+
+:root {
+  /* Couleur principale — light mode */
+  --blue: #2563eb;
+  --blue-hover: #1d4ed8;
+  --blue-dim: rgba(37, 99, 235, 0.1);
+  --blue-border: rgba(37, 99, 235, 0.25);
+  --blue-text: #2563eb;
+
+  /* Backgrounds light */
+  --bg-1: #ffffff;
+  --bg-2: #f8faff;
+  --bg-3: #f0f4ff;
+  --surface: rgba(37, 99, 235, 0.04);
+  --border: rgba(0, 0, 0, 0.07);
+  --border-hover: rgba(37, 99, 235, 0.3);
+
+  /* Textes light */
+  --text-1: #0f172a;
+  --text-2: #475569;
+  --text-3: #94a3b8;
+
+  /* Texte sur bouton / surface accent */
+  --on-accent: #ffffff;
+
+  /* Barre stats (home / à propos) */
+  --stats-band-bg: var(--bg-2);
+  --stats-band-border: var(--blue-border);
+
+  /* Focus ring (theme / inputs) */
+  --ring-focus: rgba(37, 99, 235, 0.35);
+
+  --text-muted: var(--text-2);
+  --header-bg: rgba(255, 255, 255, 0.88);
+  --mock-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  /* Couleur principale — dark */
+  --blue: #60a5fa;
+  --blue-hover: #93c5fd;
+  --blue-dim: rgba(96, 165, 250, 0.12);
+  --blue-border: rgba(96, 165, 250, 0.2);
+  --blue-text: #60a5fa;
+
+  /* Backgrounds dark */
+  --bg-1: #080d1a;
+  --bg-2: #0f1525;
+  --bg-3: #151d33;
+  --surface: rgba(96, 165, 250, 0.05);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(96, 165, 250, 0.25);
+
+  /* Textes dark */
+  --text-1: #eceaf4;
+  --text-2: rgba(236, 234, 244, 0.55);
+  --text-3: rgba(236, 234, 244, 0.28);
+
+  --on-accent: #080d1a;
+
+  --stats-band-bg: rgba(96, 165, 250, 0.06);
+  --stats-band-border: rgba(96, 165, 250, 0.15);
+
+  --ring-focus: rgba(96, 165, 250, 0.35);
+
+  --text-muted: var(--text-2);
+  --header-bg: rgba(8, 13, 26, 0.88);
+  --mock-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+body {
+  background: var(--bg-1);
+  color: var(--text-1);
+  transition:
+    background 300ms ease,
+    color 300ms ease;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @import './theme.css';

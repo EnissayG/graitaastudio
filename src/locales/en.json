@@ -1,0 +1,343 @@
+{
+  "language": {
+    "switchLabel": "Choose language",
+    "fr": "French",
+    "en": "English"
+  },
+  "theme": {
+    "light": "Switch to light mode",
+    "dark": "Switch to dark mode"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "header": {
+    "startProject": "Start a project",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "badge": "Professional Web Design",
+    "titleBefore": "Let's build your",
+    "titleHighlight": "digital presence",
+    "subtitle": "Modern, elegant, high‑performance websites that turn visitors into customers. Custom design and an outstanding user experience.",
+    "ctaPrimary": "Start a project",
+    "ctaSecondary": "View our work"
+  },
+  "statsBar": {
+    "projects": "Projects delivered",
+    "clients": "Happy clients",
+    "years": "Years of experience",
+    "onTime": "Projects delivered on time"
+  },
+  "statsAbout": {
+    "projects": "Projects delivered",
+    "clients": "Happy clients",
+    "years": "Years of experience",
+    "satisfaction": "Satisfaction rate"
+  },
+  "servicesHome": {
+    "eyebrow": "Our services",
+    "title": "End‑to‑end solutions for your online presence",
+    "subtitle": "From concept to launch, we support your web projects every step of the way.",
+    "cta": "Explore all services",
+    "uiux": {
+      "title": "UI/UX design",
+      "description": "Modern, intuitive interfaces",
+      "f1": "Clear user journeys",
+      "f2": "Consistent visual identity"
+    },
+    "dev": {
+      "title": "Development",
+      "description": "Fast, scalable sites",
+      "f1": "Clean, maintainable code",
+      "f2": "Custom integration"
+    },
+    "responsive": {
+      "title": "Responsive",
+      "description": "Works on every device",
+      "f1": "Mobile‑first",
+      "f2": "Multi‑screen testing"
+    },
+    "perf": {
+      "title": "Performance",
+      "description": "Speed and optimization",
+      "f1": "Faster load times",
+      "f2": "Solid technical practices"
+    },
+    "seo": {
+      "title": "SEO",
+      "description": "Maximum online visibility",
+      "f1": "Semantic structure",
+      "f2": "Optimized metadata"
+    },
+    "ecommerce": {
+      "title": "E‑commerce",
+      "description": "Full online stores",
+      "f1": "Smooth checkout flows",
+      "f2": "Payments and catalog"
+    }
+  },
+  "portfolioSection": {
+    "eyebrow": "Portfolio",
+    "title": "Recent projects",
+    "subtitle": "A look at our latest work",
+    "challenge": "Challenge",
+    "solution": "Solution",
+    "viewSite": "Visit site",
+    "viewProject": "View project",
+    "cta": "See all projects"
+  },
+  "projects": {
+    "byId": {
+      "1": {
+        "logoAlt": "Mirai Ramen",
+        "category": "Showcase site, food service",
+        "title": "Mirai Ramen",
+        "description": "24/7 ramen vending in Montreal",
+        "longDescription": "A modern, engaging site for an innovative ramen vending concept. A clean design that highlights the Japanese culinary experience with an intuitive interface and strong visuals.",
+        "challenges": "Create a user experience that feels modern while honoring traditional Japanese aesthetics.",
+        "solution": "Minimal layout with a Japan‑inspired palette, subtle motion, and intuitive navigation.",
+        "tags": ["Showcase", "Food service"]
+      },
+      "2": {
+        "logoAlt": "Cofandi",
+        "category": "Showcase site, café & retail",
+        "title": "Cofandi Service",
+        "description": "Cofandi services",
+        "longDescription": "Website for a smart coffee vending solution. A modern interface that makes products easy to discover and presents the concept clearly.",
+        "challenges": "Present the product in an accessible, appealing way for a broad audience.",
+        "solution": "Clean design focused on experience and visuals, with well‑structured information.",
+        "tags": ["Showcase", "Café & retail"]
+      },
+      "3": {
+        "logoAlt": "QG Barbier - Headquarters",
+        "category": "Showcase site, services",
+        "title": "QG Barbier, Headquarters",
+        "description": "Headquarters",
+        "longDescription": "A professional, refined site for a modern Montreal barbershop. Sophisticated design that reflects a premium atmosphere, with gallery and online booking.",
+        "challenges": "Build an online presence that attracts local clients and simplifies bookings.",
+        "solution": "Elegant site with photo gallery, simple booking, and clear location details.",
+        "tags": ["Showcase", "Services"]
+      }
+    }
+  },
+  "aboutHome": {
+    "eyebrow": "About",
+    "title": "Creative studio in Montreal",
+    "subtitle": "We help businesses stand out with modern, high‑performance websites. Design, development, and digital strategy with measurable results.",
+    "cta": "Learn more about us"
+  },
+  "testimonials": {
+    "eyebrow": "Testimonials",
+    "title": "What our clients say",
+    "subtitle": "Their success is our best reference",
+    "t1": {
+      "name": "Andy",
+      "role": "Mirai Ramen",
+      "content": "I had a clear vision for Mirai Ramen's image, and Graitaa Studio brought it to life with a site that's beautiful, modern, and true to the brand. The process was smooth and the result exceeded my expectations."
+    },
+    "t2": {
+      "name": "Carlens",
+      "role": "Cofandi",
+      "content": "Graitaa Studio helped me present Cofandi in a much more professional way. The site is clear, serious, and effective—you can tell real thought went into the design and structure."
+    },
+    "t3": {
+      "name": "Khalid",
+      "role": "Barber",
+      "content": "I wanted something clean, classy, and easy for my clients to browse. Graitaa Studio understood exactly what I was looking for. The site reflects my brand and my service."
+    }
+  },
+  "contactHome": {
+    "title": "Turn your vision into reality",
+    "subtitle": "Have a project in mind? Let's talk and build something exceptional together.",
+    "email": "Email",
+    "location": "Location",
+    "locationValue": "Montreal, Quebec",
+    "ctaPrimary": "Start your project",
+    "ctaEmail": "Email us"
+  },
+  "trustBar": {
+    "privacy": "Confidentiality guaranteed",
+    "response": "Reply within 24h",
+    "delivery": "100% projects delivered",
+    "based": "Based in Montreal",
+    "support": "Support included"
+  },
+  "footer": {
+    "blurb": "Web design and development studio based in Montreal. Let's build exceptional web experiences that turn your vision into a digital reality.",
+    "groupServices": "Services",
+    "groupCompany": "Company",
+    "groupContact": "Contact",
+    "linkWebDesign": "Web design",
+    "linkDevelopment": "Development",
+    "linkEcommerce": "E‑commerce",
+    "linkSeo": "SEO",
+    "linkMaintenance": "Maintenance",
+    "rights": "© {{year}} Graitaa Studio. All rights reserved.",
+    "privacyPolicy": "Privacy policy",
+    "terms": "Terms of use"
+  },
+  "pages": {
+    "services": {
+      "eyebrow": "Our services",
+      "title": "Tailored digital solutions",
+      "subtitle": "From concept to launch, we guide you at every step to build a website that reflects your vision and meets your goals.",
+      "ctaTitle": "Ready to start your project?",
+      "ctaSubtitle": "Let's discuss your needs and create something exceptional together.",
+      "ctaButton": "Contact us",
+      "reassurance1": "Reply within 24h",
+      "reassurance2": "Free consultation",
+      "reassurance3": "No obligation",
+      "uiux": {
+        "title": "UI/UX design",
+        "description": "Modern, intuitive interfaces that engage users and strengthen your brand identity.",
+        "features": ["Custom interface", "Interactive prototyping", "Responsive design", "Style guide"]
+      },
+      "dev": {
+        "title": "Web development",
+        "description": "High‑performance, scalable websites built with up‑to‑date technologies.",
+        "features": ["React & modern stack", "Optimized code", "Maximum performance", "Maintenance"]
+      },
+      "responsive": {
+        "title": "Responsive design",
+        "description": "Sites that adapt perfectly from mobile to desktop.",
+        "features": ["Mobile‑first", "Tablet optimized", "Professional desktop", "Multi‑device testing"]
+      },
+      "perf": {
+        "title": "Performance optimization",
+        "description": "Blazing‑fast sites for better UX and stronger SEO.",
+        "features": ["Faster load times", "SEO‑friendly setup", "Asset compression", "Smart caching"]
+      },
+      "seo": {
+        "title": "SEO & marketing",
+        "description": "Search strategies to grow visibility and attract more clients.",
+        "features": ["Full SEO audit", "Targeted keywords", "Google Analytics", "Content strategy"]
+      },
+      "ecommerce": {
+        "title": "E‑commerce",
+        "description": "Complete online stores to sell your products effectively.",
+        "features": ["Product catalog", "Secure payments", "Inventory management", "Dashboard"]
+      }
+    },
+    "portfolio": {
+      "eyebrow": "Portfolio",
+      "title": "Our work",
+      "subtitle": "Web projects we've designed and built with care for our clients. Every project is a chance to create something exceptional.",
+      "challenge": "Challenge",
+      "solution": "Solution",
+      "viewSite": "Visit site",
+      "bottomTitle": "Have a project in mind?",
+      "bottomSubtitle": "Let's build something extraordinary together.",
+      "bottomCta": "Start a project"
+    },
+    "about": {
+      "eyebrow": "About",
+      "title": "Web design from Montreal",
+      "subtitle": "Graitaa Studio is a creative studio focused on web design and development. We help businesses in Montreal and beyond stand out with modern sites that deliver real results.",
+      "missionLabel": "Our mission",
+      "missionTitle": "Bring your digital vision to life.",
+      "missionBody": "At Graitaa Studio, our mission is to turn your ideas into websites that are not only visually stunning but also drive measurable outcomes. We believe every business deserves an online presence that reflects what makes it unique and engages customers in a meaningful way.",
+      "missionP1": "Sites that drive measurable results",
+      "missionP2": "A partner—not just a vendor",
+      "missionP3": "On‑time delivery, always",
+      "quote": "Every business deserves an online presence that reflects what makes it unique.",
+      "quoteAttribution": "— GraitaaStudio, Montreal",
+      "valuesTitle": "Our values",
+      "valuesSubtitle": "The principles behind our daily work",
+      "creativity": {
+        "title": "Creativity",
+        "description": "We bring fresh, unique solutions to every project, pushing the boundaries of design and technology."
+      },
+      "collab": {
+        "title": "Collaboration",
+        "description": "A transparent, collaborative approach where your vision becomes our mission. We work hand in hand with you."
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "An unwavering commitment to quality, best practices, and the highest standards in the industry."
+      },
+      "reliability": {
+        "title": "Reliability",
+        "description": "Deadlines met, promises kept, results delivered. Your success is our top priority."
+      },
+      "processLabel": "Our process",
+      "processTitle": "How we work together.",
+      "step1": { "title": "Discovery", "description": "We analyze your needs and align on project goals together." },
+      "step2": { "title": "Design", "description": "Figma mockups, visual identity, validation before development." },
+      "step3": { "title": "Development", "description": "Clean, fast, responsive code. Testing across devices." },
+      "step4": { "title": "Launch", "description": "Go‑live, training, and post‑launch support included." },
+      "workTitle": "Selected work",
+      "workSubtitle": "A few projects we've shipped",
+      "viewSite": "Visit site",
+      "finalTitle": "Let's build something together",
+      "finalSubtitle": "Ready to elevate your online presence? Let's talk about your project.",
+      "finalCta": "Contact us"
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Let's talk about your project",
+      "subtitle": "Have an idea or a question? We're here to listen and help you bring your digital vision to life.",
+      "formTitle": "Send us a message",
+      "formSubtitle": "Fill out the form below and we'll get back to you within 24 hours.",
+      "honeypot": "Do not fill:",
+      "successTitle": "Message sent",
+      "successBody": "We'll reach out shortly at the email you provided.",
+      "errorTitle": "Send error",
+      "errorBody": "You can email us directly at",
+      "name": "Full name *",
+      "email": "Email *",
+      "company": "Company",
+      "projectType": "Project type",
+      "message": "Message *",
+      "sending": "Sending...",
+      "submit": "Send message",
+      "contactInfoTitle": "Contact details",
+      "sidebarTitle": "Free consultation",
+      "sidebarBody": "Book a free 30‑minute call to discuss your project and see how we can help you reach your goals.",
+      "sidebarCta": "Book now",
+      "faqTitle": "FAQ",
+      "faqSubtitle": "Answers to common questions",
+      "placeholderName": "Jane Doe",
+      "placeholderEmail": "jane@example.com",
+      "placeholderCompany": "Your company name",
+      "placeholderMessage": "Tell us about your project...",
+      "emailLabel": "Email",
+      "locationLabel": "Location",
+      "locationValue": "Montreal, Quebec",
+      "services": {
+        "new_site": "New website",
+        "redesign": "Website redesign",
+        "ecommerce": "E‑commerce",
+        "webapp": "Web application",
+        "consultation": "Consultation",
+        "other": "Other"
+      },
+      "faq1": {
+        "q": "How long does a typical website take?",
+        "a": "Usually 4 to 8 weeks, depending on scope and complexity."
+      },
+      "faq2": {
+        "q": "Do you offer maintenance after launch?",
+        "a": "Yes—we offer maintenance plans to keep your site updated and secure."
+      },
+      "faq3": {
+        "q": "Do you work with clients outside Montreal?",
+        "a": "Absolutely. We work with clients across Quebec and Canada."
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "Sorry, the page you're looking for doesn't exist or has been moved.",
+    "home": "Back to home",
+    "back": "Previous page"
+  },
+  "browserMockup": {
+    "url": "graitaastudio.com"
+  }
+}

@@ -1,124 +1,162 @@
-import { Code, Palette, Smartphone, Zap, Search, ShoppingCart } from "lucide-react";
-import { motion } from "motion/react";
+import { Check, Code2, Palette, Smartphone, Zap, Search, ShoppingBag } from 'lucide-react';
+import { Link } from 'react-router';
+import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
+import { PageHero } from '../components/PageHero';
+import { easeScroll } from '../lib/motionPresets';
+import { useDarkMode } from '../hooks/useDarkMode';
+import { useAccentColor } from '../hooks/useAccentColor';
+
+const gridVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.07 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeScroll } },
+};
+
+const serviceKeys = ['uiux', 'dev', 'responsive', 'perf', 'seo', 'ecommerce'] as const;
+
+const serviceIcons = [Palette, Code2, Smartphone, Zap, Search, ShoppingBag];
 
 export function ServicesPage() {
-  const services = [
-    {
-      icon: <Palette size={32} />,
-      title: "Design UI/UX",
-      description: "Création d'interfaces modernes et intuitives qui captivent vos utilisateurs et renforcent votre identité de marque.",
-      features: ["Interface sur mesure", "Prototypage interactif", "Design responsive", "Guide de style"]
-    },
-    {
-      icon: <Code size={32} />,
-      title: "Développement Web",
-      description: "Développement de sites web performants et évolutifs avec les technologies les plus récentes.",
-      features: ["React & Next.js", "Code optimisé", "Performance maximale", "Maintenance"]
-    },
-    {
-      icon: <Smartphone size={32} />,
-      title: "Responsive Design",
-      description: "Des sites qui s'adaptent parfaitement à tous les appareils, du mobile au desktop.",
-      features: ["Mobile-first", "Tablette optimisée", "Desktop professionnel", "Tests multi-appareils"]
-    },
-    {
-      icon: <Zap size={32} />,
-      title: "Optimisation Performance",
-      description: "Sites ultra-rapides pour une meilleure expérience utilisateur et un meilleur référencement.",
-      features: ["Temps de chargement réduit", "SEO optimisé", "Compression d'assets", "Cache intelligent"]
-    },
-    {
-      icon: <Search size={32} />,
-      title: "SEO & Marketing",
-      description: "Stratégies de référencement pour améliorer votre visibilité et attirer plus de clients.",
-      features: ["Audit SEO complet", "Mots-clés ciblés", "Google Analytics", "Stratégie de contenu"]
-    },
-    {
-      icon: <ShoppingCart size={32} />,
-      title: "E-Commerce",
-      description: "Création de boutiques en ligne complètes pour vendre vos produits efficacement.",
-      features: ["Catalogue produits", "Paiement sécurisé", "Gestion des stocks", "Tableau de bord"]
-    },
-  ];
+  const { t } = useTranslation();
+  const { isDark } = useDarkMode();
+  const { accentBorder, accentShadow06, accentNum20 } = useAccentColor();
+  const cardHoverShadow = `0 12px 32px ${accentShadow06}`;
+
+  const reassuranceKeys = ['reassurance1', 'reassurance2', 'reassurance3'] as const;
 
   return (
     <div className="pt-24">
-      {/* Hero Section */}
-      <section className="py-20 px-6 lg:px-8 bg-muted/40">
-        <div className="max-w-4xl mx-auto text-center">
+      <PageHero
+        compact
+        eyebrowAccent
+        eyebrow={t('pages.services.eyebrow')}
+        title={t('pages.services.title')}
+        subtitle={t('pages.services.subtitle')}
+      />
+
+      <section className="bg-[var(--bg-1)] px-6 py-16 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-7xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+            variants={gridVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
           >
-            <span className="text-[var(--brand-foreground)] tracking-wide uppercase text-sm mb-3 block">
-              Nos services
-            </span>
-            <h1 className="text-3xl lg:text-4xl text-foreground font-semibold mb-6">
-              Solutions digitales sur-mesure
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Du concept à la mise en ligne, nous vous accompagnons à chaque étape pour créer
-              un site web qui reflète votre vision et atteint vos objectifs.
-            </p>
+            {serviceKeys.map((key, index) => {
+              const p = `pages.services.${key}`;
+              const Icon = serviceIcons[index];
+              const featuresRaw = t(`${p}.features`, { returnObjects: true });
+              const features = Array.isArray(featuresRaw) ? (featuresRaw as string[]) : [];
+
+              return (
+                <motion.div
+                  key={key}
+                  variants={cardVariants}
+                  whileHover={{
+                    y: -4,
+                    borderColor: accentBorder,
+                    boxShadow: cardHoverShadow,
+                    transition: { duration: 0.2 },
+                  }}
+                  className="relative rounded-xl border border-[var(--border)] bg-[var(--bg-1)] p-8"
+                  style={{ borderWidth: '0.5px' }}
+                >
+                  <span
+                    className="pointer-events-none absolute right-5 top-4 font-mono text-[11px] font-medium"
+                    style={{ color: accentNum20 }}
+                    aria-hidden
+                  >
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div
+                    className="mb-5 flex size-12 items-center justify-center rounded-[10px] border border-[var(--blue-border)] bg-[var(--blue-dim)] text-[var(--blue-text)]"
+                    style={{ borderWidth: '0.5px' }}
+                  >
+                    <Icon size={28} strokeWidth={1.75} />
+                  </div>
+                  <h3 className="mb-3 text-xl font-semibold text-[var(--text-1)]">{t(`${p}.title`)}</h3>
+                  <p className="mb-6 leading-relaxed text-[var(--text-2)]">{t(`${p}.description`)}</p>
+                  <ul className="space-y-2 border-t border-[var(--border)] pt-5" style={{ borderTopWidth: '0.5px' }}>
+                    {features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start text-sm text-[var(--text-2)]">
+                        <span className="mr-2 shrink-0 text-[var(--blue-text)]">–</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-24 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-background p-8 rounded-2xl border border-border hover:border-[var(--brand-muted)] hover:shadow-lg transition-all duration-200"
-              >
-                <div className="w-16 h-16 bg-[var(--brand-muted)] text-[var(--brand)] rounded-xl flex items-center justify-center mb-6">
-                  {service.icon}
-                </div>
-                <h3 className="text-xl text-foreground font-semibold mb-4">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  {service.description}
-                </p>
-                <ul className="space-y-3">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-foreground">
-                      <svg className="w-5 h-5 text-[var(--brand)] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
+      <section
+        className={`relative overflow-hidden px-6 py-20 lg:px-8 ${isDark ? 'mx-4 rounded-2xl border border-[var(--blue-border)]' : ''}`}
+        style={{
+          background: isDark ? 'var(--bg-2)' : 'linear-gradient(135deg, #1d4ed8 0%, #2563EB 50%, #3b82f6 100%)',
+          borderWidth: isDark ? '0.5px' : undefined,
+          borderRadius: isDark ? 16 : undefined,
+        }}
+      >
+        {!isDark ? (
+          <>
+            <div
+              className="pointer-events-none absolute rounded-full border border-white/10"
+              style={{ width: 300, height: 300, right: -80, top: -80 }}
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute rounded-full border border-[rgba(255,255,255,0.07)]"
+              style={{ width: 200, height: 200, left: -60, bottom: -60 }}
+              aria-hidden
+            />
+          </>
+        ) : null}
+        <motion.div
+          className="relative z-10 mx-auto max-w-4xl text-center"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55, ease: easeScroll }}
+        >
+          <h2
+            className={`mb-4 text-3xl font-semibold lg:text-4xl ${isDark ? 'text-[var(--text-1)]' : 'text-white'}`}
+          >
+            {t('pages.services.ctaTitle')}
+          </h2>
+          <p className={`mb-8 text-lg ${isDark ? 'text-[var(--text-2)]' : 'text-white/90'}`}>
+            {t('pages.services.ctaSubtitle')}
+          </p>
+          <Link
+            to="/contact"
+            className="inline-flex rounded-lg bg-[var(--blue)] px-8 py-4 text-base font-medium text-[var(--on-accent)] transition-colors hover:bg-[var(--blue-hover)]"
+          >
+            {t('pages.services.ctaButton')}
+          </Link>
+          <div
+            className={`mt-4 flex flex-row flex-wrap items-center justify-center text-[13px] ${isDark ? 'text-[var(--text-2)]' : 'text-[rgba(255,255,255,0.75)]'}`}
+            style={{ marginTop: 16, gap: 24 }}
+          >
+            {reassuranceKeys.map((k) => (
+              <span key={k} className="inline-flex items-center gap-1.5">
+                <Check
+                  size={14}
+                  className={`shrink-0 ${isDark ? 'text-[var(--blue-text)]' : 'text-white/80'}`}
+                  strokeWidth={2.5}
+                  aria-hidden
+                />
+                {t(`pages.services.${k}`)}
+              </span>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-6 lg:px-8 bg-[var(--brand)]">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl lg:text-4xl text-white font-semibold mb-4">
-            Prêt à démarrer votre projet ?
-          </h2>
-          <p className="text-lg text-white/90 mb-8">
-            Discutons de vos besoins et créons ensemble quelque chose d'exceptionnel.
-          </p>
-          <a
-            href="/contact"
-            className="inline-block bg-white text-[var(--brand)] px-8 py-4 rounded-xl hover:bg-white/95 transition-colors text-base font-medium"
-          >
-            Contactez-nous
-          </a>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

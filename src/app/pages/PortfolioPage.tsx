@@ -1,133 +1,179 @@
-import { ArrowRight } from "lucide-react";
-import { motion } from "motion/react";
-import { projects } from "../data/projects";
+import { ExternalLink } from 'lucide-react';
+import { Link } from 'react-router';
+import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
+import { projects } from '../data/projects';
+import { PageHero } from '../components/PageHero';
+import { easeScroll } from '../lib/motionPresets';
+import { useAccentColor } from '../hooks/useAccentColor';
+
+function projectTags(t: (k: string, o?: object) => unknown, id: number): string[] {
+  const raw = t(`projects.byId.${id}.tags`, { returnObjects: true });
+  return Array.isArray(raw) ? (raw as string[]) : [];
+}
 
 export function PortfolioPage() {
+  const { t } = useTranslation();
+  const { accentOverlay08 } = useAccentColor();
+
   return (
     <div className="pt-24">
-      {/* Hero Section */}
-      <section className="py-20 px-6 lg:px-8 bg-muted/40">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="text-[var(--brand-foreground)] tracking-wide uppercase text-sm mb-3 block">
-              Portfolio
-            </span>
-            <h1 className="text-3xl lg:text-4xl text-foreground font-semibold mb-6">
-              Nos réalisations
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Découvrez les projets web que nous avons conçus et développés avec passion pour nos clients.
-              Chaque projet est une opportunité de créer quelque chose d'exceptionnel.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow={t('pages.portfolio.eyebrow')}
+        title={t('pages.portfolio.title')}
+        subtitle={t('pages.portfolio.subtitle')}
+      />
 
-      {/* Projects */}
-      <section className="py-24 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto space-y-32">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7, delay: index * 0.2 }}
-              className={`flex flex-col ${
-                index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-              } gap-12 items-center`}
-            >
-              {/* Image */}
-              <div className="flex-1 w-full">
-                <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group bg-muted">
+      <section className="bg-[var(--bg-1)] px-6 py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl space-y-24 lg:space-y-28">
+          {projects.map((project, index) => {
+            const imageLeft = index % 2 === 0;
+            const base = `projects.byId.${project.id}`;
+            const tags = projectTags(t, project.id);
+
+            const imageBlock = (
+              <motion.div
+                className="relative w-full flex-1"
+                initial={{ opacity: 0, x: imageLeft ? -28 : 28 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, ease: easeScroll }}
+              >
+                <motion.div
+                  className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[var(--border)]"
+                  style={{ borderWidth: '0.5px' }}
+                  initial="rest"
+                  whileHover="hover"
+                  variants={{
+                    rest: { scale: 1 },
+                    hover: { scale: 1.02, transition: { duration: 0.4, ease: 'easeOut' } },
+                  }}
+                >
                   <img
                     src={project.image}
-                    alt={project.logoAlt}
-                    className={`w-full h-full group-hover:scale-105 transition-transform duration-700 ${project.imageCover ? "object-cover" : "object-contain"} ${project.invertOnLight ? "invert dark:invert-0" : ""}`}
+                    alt={String(t(`${base}.logoAlt`))}
+                    className={`size-full ${project.imageCover ? 'object-cover' : 'object-contain'} ${project.invertOnLight ? 'invert dark:invert-0' : ''}`}
                   />
-                </div>
-              </div>
+                  <motion.div
+                    className="pointer-events-none absolute inset-0 rounded-xl"
+                    style={{ backgroundColor: accentOverlay08 }}
+                    variants={{
+                      rest: { opacity: 0 },
+                      hover: { opacity: 1, transition: { duration: 0.3 } },
+                    }}
+                  />
+                </motion.div>
+              </motion.div>
+            );
 
-              {/* Content */}
-              <div className="flex-1 space-y-6">
-                <div>
-                  <span className="text-[var(--brand-foreground)] text-sm tracking-wide uppercase">
-                    {project.category}
-                  </span>
-                  <h2 className="text-2xl lg:text-3xl text-foreground font-semibold mt-3 mb-4">
-                    {project.title}
-                  </h2>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    {project.longDescription}
-                  </p>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-3">
-                  {project.tags.map((tag, idx) => (
+            const textBlock = (
+              <motion.div
+                className="flex w-full flex-1 flex-col justify-center gap-4"
+                initial={{ opacity: 0, x: imageLeft ? 20 : -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, ease: easeScroll }}
+              >
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag) => (
                     <span
-                      key={idx}
-                      className="px-4 py-2 bg-[var(--brand-muted)] text-[var(--brand-foreground)] rounded-full text-sm"
+                      key={tag}
+                      className="inline-flex items-center rounded border border-[var(--blue-border)] bg-[var(--blue-dim)] px-3 py-1 text-[11px] font-medium uppercase tracking-[1.5px] text-[var(--blue-text)]"
+                      style={{ borderWidth: '0.5px', borderRadius: '4px' }}
                     >
+                      <span
+                        className="mr-[5px] inline-block size-[5px] shrink-0 rounded-full bg-[var(--blue-text)]"
+                        aria-hidden
+                      />
                       {tag}
                     </span>
                   ))}
                 </div>
-
-                {/* Challenge & Solution */}
-                <div className="space-y-4 pt-4 border-t border-border">
+                <p className="text-xs font-medium uppercase tracking-wide text-[var(--text-3)]">
+                  {t(`${base}.category`)}
+                </p>
+                <h2 className="text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t(`${base}.title`)}</h2>
+                <p className="text-lg leading-relaxed text-[var(--text-2)]">{t(`${base}.longDescription`)}</p>
+                <div className="space-y-3 border-t border-[var(--border)] pt-4 text-sm" style={{ borderTopWidth: '0.5px' }}>
                   <div>
-                    <h4 className="text-foreground font-semibold mb-2">Défi</h4>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {project.challenges}
-                    </p>
+                    <h4 className="mb-1 font-semibold text-[var(--text-1)]">{t('pages.portfolio.challenge')}</h4>
+                    <p className="leading-relaxed text-[var(--text-2)]">{t(`${base}.challenges`)}</p>
                   </div>
                   <div>
-                    <h4 className="text-foreground font-semibold mb-2">Solution</h4>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {project.solution}
-                    </p>
+                    <h4 className="mb-1 font-semibold text-[var(--text-1)]">{t('pages.portfolio.solution')}</h4>
+                    <p className="leading-relaxed text-[var(--text-2)]">{t(`${base}.solution`)}</p>
                   </div>
                 </div>
-
-                {/* View Project Link */}
                 {project.url ? (
-                  <a
+                  <motion.a
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[var(--brand)] hover:text-[var(--brand-hover)] transition-colors group"
+                    className="mt-1 inline-flex items-center text-sm font-medium text-[var(--blue-text)]"
+                    initial="rest"
+                    whileHover="hover"
+                    variants={{
+                      rest: { gap: '6px' },
+                      hover: { gap: '10px', transition: { duration: 0.2 } },
+                    }}
                   >
-                    <span>Voir le site</span>
-                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                  </a>
+                    {t('pages.portfolio.viewSite')}
+                    <motion.span
+                      className="inline-flex"
+                      variants={{
+                        rest: { rotate: 45 },
+                        hover: { rotate: 0, transition: { duration: 0.2 } },
+                      }}
+                    >
+                      <ExternalLink size={14} className="shrink-0" />
+                    </motion.span>
+                  </motion.a>
                 ) : null}
+              </motion.div>
+            );
+
+            return (
+              <div
+                key={project.id}
+                className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-14"
+              >
+                {imageLeft ? (
+                  <>
+                    {imageBlock}
+                    {textBlock}
+                  </>
+                ) : (
+                  <>
+                    {textBlock}
+                    {imageBlock}
+                  </>
+                )}
               </div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6 lg:px-8 bg-muted/50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl lg:text-3xl text-foreground font-semibold mb-4">
-            Vous Avez Un Projet En Tête ?
+      <section className="border-t border-[var(--border)] bg-[var(--bg-2)] px-6 py-20 lg:px-8" style={{ borderTopWidth: '0.5px' }}>
+        <motion.div
+          className="mx-auto max-w-4xl rounded-xl border border-[var(--blue-border)] bg-[var(--bg-1)] px-8 py-14 text-center shadow-sm"
+          style={{ borderWidth: '0.5px' }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55, ease: easeScroll }}
+        >
+          <h2 className="mb-4 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">
+            {t('pages.portfolio.bottomTitle')}
           </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Travaillons ensemble pour créer quelque chose d'extraordinaire.
-          </p>
-          <a
-            href="/contact"
-            className="inline-block bg-[var(--brand)] text-white px-8 py-4 rounded-xl hover:bg-[var(--brand-hover)] transition-colors text-base font-medium"
+          <p className="mb-8 text-lg text-[var(--text-2)]">{t('pages.portfolio.bottomSubtitle')}</p>
+          <Link
+            to="/contact"
+            className="inline-flex rounded-lg bg-[var(--blue)] px-8 py-4 text-base font-medium text-[var(--on-accent)] transition-colors hover:bg-[var(--blue-hover)]"
           >
-            Démarrer un projet
-          </a>
-        </div>
+            {t('pages.portfolio.bottomCta')}
+          </Link>
+        </motion.div>
       </section>
     </div>
   );

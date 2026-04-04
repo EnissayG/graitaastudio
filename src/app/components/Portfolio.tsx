@@ -1,80 +1,230 @@
 import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router';
+import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 import { projects } from '../data/projects';
+import { easeScroll } from '../lib/motionPresets';
+import { useAccentColor } from '../hooks/useAccentColor';
+
+const MotionLink = motion(Link);
+
+const ease = easeScroll;
+
+function projectTags(t: (k: string, o?: object) => unknown, id: number): string[] {
+  const raw = t(`projects.byId.${id}.tags`, { returnObjects: true });
+  return Array.isArray(raw) ? (raw as string[]) : [];
+}
 
 export function Portfolio() {
-  return (
-    <section id="portfolio" className="py-20 px-6 lg:px-8 bg-background">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="text-[var(--brand-foreground)] text-sm font-medium tracking-wide uppercase block mb-2">
-            Portfolio
-          </span>
-          <h2 className="text-2xl lg:text-3xl text-foreground font-semibold mb-2">
-            Projets récents
-          </h2>
-          <p className="text-muted-foreground text-base max-w-xl mx-auto">
-            Un aperçu de nos dernières créations
-          </p>
-        </div>
+  const { t } = useTranslation();
+  const { accentOverlay08 } = useAccentColor();
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
+  return (
+    <section id="portfolio" className="bg-[var(--bg-2)] px-6 py-20 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <motion.div
+          className="mb-14 text-center"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55, ease }}
+        >
+          <motion.span
+            className="mb-2 block text-sm font-medium uppercase tracking-wide text-[var(--blue-text)]"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.55, ease, delay: 0 }}
+          >
+            {t('portfolioSection.eyebrow')}
+          </motion.span>
+          <motion.h2
+            className="mb-2 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.55, ease, delay: 0.08 }}
+          >
+            {t('portfolioSection.title')}
+          </motion.h2>
+          <motion.p
+            className="mx-auto max-w-xl text-base text-[var(--text-2)]"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.55, ease, delay: 0.16 }}
+          >
+            {t('portfolioSection.subtitle')}
+          </motion.p>
+        </motion.div>
+
+        <div className="mb-12 space-y-16 lg:space-y-20">
           {projects.map((project, index) => {
             const href = project.url || '/portfolio';
             const isExternal = !!project.url;
-            const content = (
-              <>
-                <div className="aspect-[4/3] overflow-hidden bg-muted">
+            const imageLeft = index % 2 === 0;
+            const base = `projects.byId.${project.id}`;
+            const tags = projectTags(t, project.id);
+
+            const imageBlock = (
+              <motion.div
+                className="relative flex-1"
+                initial={{ opacity: 0, x: imageLeft ? -28 : 28 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, ease }}
+              >
+                <motion.div
+                  className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[var(--border)]"
+                  style={{ borderWidth: '0.5px' }}
+                  initial="rest"
+                  whileHover="hover"
+                  variants={{
+                    rest: { scale: 1 },
+                    hover: { scale: 1.02, transition: { duration: 0.4, ease: 'easeOut' } },
+                  }}
+                >
                   <img
                     src={project.image}
-                    alt={project.logoAlt}
-                    className={`w-full h-full group-hover:scale-[1.02] transition-transform duration-300 ${project.imageCover ? 'object-cover' : 'object-contain'} ${project.invertOnLight ? 'invert dark:invert-0' : ''}`}
+                    alt={String(t(`${base}.logoAlt`))}
+                    className={`size-full ${project.imageCover ? 'object-cover' : 'object-contain'} ${project.invertOnLight ? 'invert dark:invert-0' : ''}`}
                   />
-                </div>
-                <div className="p-5">
-                  <span className="text-[var(--brand)] text-xs font-medium uppercase tracking-wide">
-                    {project.category}
-                  </span>
-                  <h3 className="text-foreground font-semibold mt-1 group-hover:text-[var(--brand)] transition-colors">
-                    {project.title}
-                  </h3>
-                  <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground mt-2">
-                    {isExternal ? 'Voir le site' : 'Voir le projet'}
-                    <ExternalLink size={14} className="opacity-70" />
-                  </span>
-                </div>
-              </>
+                  <motion.div
+                    className="pointer-events-none absolute inset-0 rounded-xl"
+                    style={{ backgroundColor: accentOverlay08 }}
+                    variants={{
+                      rest: { opacity: 0 },
+                      hover: { opacity: 1, transition: { duration: 0.3 } },
+                    }}
+                  />
+                </motion.div>
+              </motion.div>
             );
-            return isExternal ? (
-              <a
-                key={project.id}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block rounded-2xl overflow-hidden border border-border bg-muted/30 hover:border-[var(--brand-muted)] hover:shadow-md transition-all duration-300"
+
+            const textBlock = (
+              <motion.div
+                className="flex flex-1 flex-col justify-center gap-3"
+                initial={{ opacity: 0, x: imageLeft ? 20 : -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, ease }}
               >
-                {content}
-              </a>
-            ) : (
-              <Link
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center rounded border border-[var(--blue-border)] bg-[var(--blue-dim)] px-3 py-1 text-[11px] font-medium uppercase tracking-[1.5px] text-[var(--blue-text)]"
+                      style={{ borderWidth: '0.5px', borderRadius: '4px' }}
+                    >
+                      <span
+                        className="mr-[5px] inline-block shrink-0 rounded-full bg-[var(--blue-text)]"
+                        style={{ width: 5, height: 5 }}
+                        aria-hidden
+                      />
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-3)]">
+                  {t(`${base}.category`)}
+                </span>
+                <h3 className="text-xl font-semibold text-[var(--text-1)] lg:text-2xl">{t(`${base}.title`)}</h3>
+                <p className="text-[15px] leading-relaxed text-[var(--text-2)]">{t(`${base}.longDescription`)}</p>
+                <div className="space-y-2 text-sm">
+                  <div>
+                    <p className="font-medium text-[var(--text-1)]">{t('portfolioSection.challenge')}</p>
+                    <p className="text-[var(--text-2)]">{t(`${base}.challenges`)}</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-[var(--text-1)]">{t('portfolioSection.solution')}</p>
+                    <p className="text-[var(--text-2)]">{t(`${base}.solution`)}</p>
+                  </div>
+                </div>
+                {isExternal ? (
+                  <motion.a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 inline-flex items-center text-sm font-medium text-[var(--blue-text)]"
+                    initial="rest"
+                    whileHover="hover"
+                    variants={{
+                      rest: { gap: '6px' },
+                      hover: { gap: '10px', transition: { duration: 0.2 } },
+                    }}
+                  >
+                    {t('portfolioSection.viewSite')}
+                    <motion.span
+                      className="inline-flex"
+                      variants={{
+                        rest: { rotate: 45 },
+                        hover: { rotate: 0, transition: { duration: 0.2 } },
+                      }}
+                    >
+                      <ExternalLink size={14} className="shrink-0" />
+                    </motion.span>
+                  </motion.a>
+                ) : (
+                  <MotionLink
+                    to={href}
+                    className="mt-1 inline-flex items-center text-sm font-medium text-[var(--blue-text)]"
+                    initial="rest"
+                    whileHover="hover"
+                    variants={{
+                      rest: { gap: '6px' },
+                      hover: { gap: '10px', transition: { duration: 0.2 } },
+                    }}
+                  >
+                    {t('portfolioSection.viewProject')}
+                    <motion.span
+                      className="inline-flex"
+                      variants={{
+                        rest: { rotate: 45 },
+                        hover: { rotate: 0, transition: { duration: 0.2 } },
+                      }}
+                    >
+                      <ExternalLink size={14} className="shrink-0" />
+                    </motion.span>
+                  </MotionLink>
+                )}
+              </motion.div>
+            );
+
+            return (
+              <div
                 key={project.id}
-                to={href}
-                className="group block rounded-2xl overflow-hidden border border-border bg-muted/30 hover:border-[var(--brand-muted)] hover:shadow-md transition-all duration-300"
+                className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-14"
               >
-                {content}
-              </Link>
+                {imageLeft ? (
+                  <>
+                    {imageBlock}
+                    {textBlock}
+                  </>
+                ) : (
+                  <>
+                    {textBlock}
+                    {imageBlock}
+                  </>
+                )}
+              </div>
             );
           })}
         </div>
 
-        <div className="text-center">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55, ease }}
+        >
           <Link
             to="/portfolio"
-            className="inline-flex items-center justify-center bg-[var(--brand)] text-white px-8 py-3.5 rounded-xl text-base font-medium hover:bg-[var(--brand-hover)] transition-colors duration-200"
+            className="inline-flex items-center justify-center rounded-lg bg-[var(--blue)] px-8 py-3.5 text-base font-medium text-[var(--on-accent)] transition-colors hover:bg-[var(--blue-hover)]"
           >
-            Voir tous les projets
+            {t('portfolioSection.cta')}
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

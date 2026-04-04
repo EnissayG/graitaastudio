@@ -1,52 +1,102 @@
-import { CheckCircle, Users, Award, Lightbulb } from 'lucide-react';
 import { Link } from 'react-router';
+import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
+import { useAnimatedStat } from '../hooks/useAnimatedStat';
+import { easeScroll } from '../lib/motionPresets';
+
+const statConfig = [
+  { target: 10, suffix: '+', labelKey: 'statsAbout.projects' },
+  { target: 10, suffix: '+', labelKey: 'statsAbout.clients' },
+  { target: 4, suffix: '+', labelKey: 'statsAbout.years' },
+  { target: 100, suffix: '%', labelKey: 'statsAbout.satisfaction' },
+] as const;
+
+function AboutStat({ target, suffix, label }: { target: number; suffix: string; label: string }) {
+  const { ref, display } = useAnimatedStat(target);
+  return (
+    <div ref={ref} className="text-center">
+      <div className="mb-2 text-4xl font-semibold tabular-nums text-[var(--brand)] lg:text-5xl">
+        {display}
+        <span>{suffix}</span>
+      </div>
+      <div className="text-base text-muted-foreground">{label}</div>
+    </div>
+  );
+}
 
 export function About() {
-  const stats = [
-    { number: '10+', label: 'Projets réalisés' },
-    { number: '10+', label: 'Clients satisfaits' },
-    { number: '4+', label: 'Années d\'expérience' },
-    { number: '100%', label: 'Taux de satisfaction' },
-  ];
+  const { t } = useTranslation();
 
   return (
-    <section id="about" className="py-24 px-6 lg:px-8 bg-background">
-      <div className="max-w-7xl mx-auto">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <span className="text-[var(--brand-foreground)] tracking-wide uppercase text-sm mb-3 block">
-            À propos
-          </span>
-          <h2 className="text-3xl lg:text-4xl text-foreground font-semibold mb-4">
-            Studio créatif à Montréal
-          </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Nous aidons les entreprises à se démarquer avec des sites web modernes et performants.
-            Design, développement et stratégie digitale pour des résultats concrets.
-          </p>
-        </div>
+    <section id="about" className="bg-[var(--bg-1)] px-6 py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <motion.div
+          className="mx-auto mb-16 max-w-3xl text-center"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55, ease: easeScroll }}
+        >
+          <motion.span
+            className="mb-3 block text-sm uppercase tracking-wide text-[var(--brand-foreground)]"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.55, ease: easeScroll, delay: 0 }}
+          >
+            {t('aboutHome.eyebrow')}
+          </motion.span>
+          <motion.h2
+            className="mb-4 text-3xl font-semibold text-foreground lg:text-4xl"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.55, ease: easeScroll, delay: 0.08 }}
+          >
+            {t('aboutHome.title')}
+          </motion.h2>
+          <motion.p
+            className="text-lg leading-relaxed text-muted-foreground"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.55, ease: easeScroll, delay: 0.16 }}
+          >
+            {t('aboutHome.subtitle')}
+          </motion.p>
+        </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
-          {stats.map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="text-4xl lg:text-5xl text-[var(--brand)] font-semibold mb-2 tabular-nums">
-                {stat.number}
-              </div>
-              <div className="text-muted-foreground text-base">
-                {stat.label}
-              </div>
-            </div>
+        <motion.div
+          className="mb-16 grid grid-cols-2 gap-10 lg:grid-cols-4"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55, ease: easeScroll }}
+        >
+          {statConfig.map((stat) => (
+            <AboutStat
+              key={stat.labelKey}
+              target={stat.target}
+              suffix={stat.suffix}
+              label={t(stat.labelKey)}
+            />
           ))}
-        </div>
+        </motion.div>
 
-        {/* CTA */}
-        <div className="text-center">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55, ease: easeScroll }}
+        >
           <Link
             to="/about"
-            className="inline-block bg-[var(--brand)] text-white px-10 py-5 rounded-full hover:bg-[var(--brand-hover)] transition-colors duration-200 text-lg"
+            className="inline-block rounded-xl bg-[var(--blue)] px-10 py-5 text-lg text-[var(--on-accent)] transition-colors hover:bg-[var(--blue-hover)]"
           >
-            En savoir plus sur nous
+            {t('aboutHome.cta')}
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

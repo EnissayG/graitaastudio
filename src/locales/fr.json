@@ -1,0 +1,343 @@
+{
+  "language": {
+    "switchLabel": "Choisir la langue",
+    "fr": "Français",
+    "en": "English"
+  },
+  "theme": {
+    "light": "Passer en mode clair",
+    "dark": "Passer en mode sombre"
+  },
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "header": {
+    "startProject": "Démarrer un projet",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  },
+  "hero": {
+    "badge": "Conception Web Professionnelle",
+    "titleBefore": "Créons votre",
+    "titleHighlight": "présence digitale",
+    "subtitle": "Des sites web modernes, élégants et performants qui transforment vos visiteurs en clients. Design sur-mesure et expérience utilisateur exceptionnelle.",
+    "ctaPrimary": "Démarrer un projet",
+    "ctaSecondary": "Voir nos réalisations"
+  },
+  "statsBar": {
+    "projects": "Projets réalisés",
+    "clients": "Clients satisfaits",
+    "years": "Années d'expérience",
+    "onTime": "Projets livrés dans les délais"
+  },
+  "statsAbout": {
+    "projects": "Projets réalisés",
+    "clients": "Clients satisfaits",
+    "years": "Années d'expérience",
+    "satisfaction": "Taux de satisfaction"
+  },
+  "servicesHome": {
+    "eyebrow": "Nos services",
+    "title": "Solutions complètes pour votre présence en ligne",
+    "subtitle": "De la conception à la mise en ligne, nous accompagnons vos projets web de A à Z.",
+    "cta": "Découvrir tous nos services",
+    "uiux": {
+      "title": "Design UI/UX",
+      "description": "Interfaces modernes et intuitives",
+      "f1": "Parcours utilisateur clair",
+      "f2": "Identité visuelle cohérente"
+    },
+    "dev": {
+      "title": "Développement",
+      "description": "Sites performants et évolutifs",
+      "f1": "Code propre et maintenable",
+      "f2": "Intégration sur-mesure"
+    },
+    "responsive": {
+      "title": "Responsive",
+      "description": "Adapté à tous les appareils",
+      "f1": "Mobile-first",
+      "f2": "Tests multi-écrans"
+    },
+    "perf": {
+      "title": "Performance",
+      "description": "Vitesse et optimisation",
+      "f1": "Temps de chargement réduits",
+      "f2": "Bonnes pratiques techniques"
+    },
+    "seo": {
+      "title": "SEO",
+      "description": "Visibilité en ligne maximale",
+      "f1": "Structure sémantique",
+      "f2": "Métadonnées optimisées"
+    },
+    "ecommerce": {
+      "title": "E-Commerce",
+      "description": "Boutiques en ligne complètes",
+      "f1": "Parcours d'achat fluide",
+      "f2": "Paiement et catalogue"
+    }
+  },
+  "portfolioSection": {
+    "eyebrow": "Portfolio",
+    "title": "Projets récents",
+    "subtitle": "Un aperçu de nos dernières créations",
+    "challenge": "Défi",
+    "solution": "Solution",
+    "viewSite": "Voir le site",
+    "viewProject": "Voir le projet",
+    "cta": "Voir tous les projets"
+  },
+  "projects": {
+    "byId": {
+      "1": {
+        "logoAlt": "Mirai Ramen",
+        "category": "Site vitrine, restauration",
+        "title": "Mirai Ramen",
+        "description": "Distributeurs de ramen 24/7 à Montréal",
+        "longDescription": "Un site web moderne et captivant pour un concept innovant de distributeur automatique de ramen. Design épuré qui met en valeur l'expérience culinaire japonaise avec une interface intuitive et des visuels attrayants.",
+        "challenges": "Créer une expérience utilisateur qui reflète la modernité du concept tout en respectant l'esthétique japonaise traditionnelle.",
+        "solution": "Design minimaliste avec palette de couleurs inspirée du Japon, animations subtiles et navigation intuitive.",
+        "tags": ["Site vitrine", "Restauration"]
+      },
+      "2": {
+        "logoAlt": "Cofandi",
+        "category": "Site vitrine, café et vente",
+        "title": "Cofandi Service",
+        "description": "Services Cofandi",
+        "longDescription": "Site web pour un distributeur automatique intelligent de café. Interface moderne qui facilite la découverte des produits et présente le concept de façon claire et attractive.",
+        "challenges": "Présenter le produit de manière accessible et attractive pour un large public.",
+        "solution": "Design épuré centré sur l'expérience et les visuels, avec des informations bien structurées.",
+        "tags": ["Site vitrine", "Café & vente"]
+      },
+      "3": {
+        "logoAlt": "QG Barbier - Le Quartier Général",
+        "category": "Site vitrine, services",
+        "title": "QG Barbier, Le Quartier Général",
+        "description": "Le Quartier Général",
+        "longDescription": "Site web professionnel et élégant pour un salon de coiffure moderne à Montréal. Design sophistiqué qui reflète l'atmosphère premium du salon, avec galerie et prise de rendez-vous en ligne.",
+        "challenges": "Créer une présence en ligne qui attire une clientèle locale et facilite les réservations.",
+        "solution": "Site élégant avec galerie photos, prise de rendez-vous simple et informations de localisation claires.",
+        "tags": ["Site vitrine", "Services"]
+      }
+    }
+  },
+  "aboutHome": {
+    "eyebrow": "À propos",
+    "title": "Studio créatif à Montréal",
+    "subtitle": "Nous aidons les entreprises à se démarquer avec des sites web modernes et performants. Design, développement et stratégie digitale pour des résultats concrets.",
+    "cta": "En savoir plus sur nous"
+  },
+  "testimonials": {
+    "eyebrow": "Témoignages",
+    "title": "Ce que disent nos clients",
+    "subtitle": "Leur succès est notre meilleure référence",
+    "t1": {
+      "name": "Andy",
+      "role": "Mirai Ramen",
+      "content": "J'avais une idée précise pour l'image de Mirai Ramen, et Graitaa Studio a réussi à la rendre concrète avec un site qui est à la fois beau, moderne et cohérent avec la marque. Le processus était fluide et le résultat dépasse mes attentes."
+    },
+    "t2": {
+      "name": "Carlens",
+      "role": "Cofandi",
+      "content": "Graitaa Studio m'a aidé à présenter Cofandi de façon beaucoup plus professionnelle. Le site est clair, sérieux et efficace. On sent qu'il y a une vraie réflexion derrière le design et la structure."
+    },
+    "t3": {
+      "name": "Khalid",
+      "role": "Barbier",
+      "content": "Je voulais quelque chose de propre, classe et facile à consulter pour mes clients. Graitaa Studio a compris exactement ce que je cherchais. Le site représente bien mon image et mon service."
+    }
+  },
+  "contactHome": {
+    "title": "Transformons votre vision en réalité",
+    "subtitle": "Vous avez un projet en tête ? Parlons-en ensemble et créons quelque chose d'exceptionnel.",
+    "email": "Email",
+    "location": "Localisation",
+    "locationValue": "Montréal, Québec",
+    "ctaPrimary": "Démarrer votre projet",
+    "ctaEmail": "Envoyez-nous un email"
+  },
+  "trustBar": {
+    "privacy": "Confidentialité garantie",
+    "response": "Réponse sous 24h",
+    "delivery": "100% projets livrés",
+    "based": "Basé à Montréal",
+    "support": "Support inclus"
+  },
+  "footer": {
+    "blurb": "Studio de design et développement web basé à Montréal. Créons ensemble des expériences web exceptionnelles qui transforment votre vision en réalité digitale.",
+    "groupServices": "Services",
+    "groupCompany": "Entreprise",
+    "groupContact": "Contact",
+    "linkWebDesign": "Design Web",
+    "linkDevelopment": "Développement",
+    "linkEcommerce": "E-Commerce",
+    "linkSeo": "SEO",
+    "linkMaintenance": "Maintenance",
+    "rights": "© {{year}} Graitaa Studio. Tous droits réservés.",
+    "privacyPolicy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation"
+  },
+  "pages": {
+    "services": {
+      "eyebrow": "Nos services",
+      "title": "Solutions digitales sur-mesure",
+      "subtitle": "Du concept à la mise en ligne, nous vous accompagnons à chaque étape pour créer un site web qui reflète votre vision et atteint vos objectifs.",
+      "ctaTitle": "Prêt à démarrer votre projet ?",
+      "ctaSubtitle": "Discutons de vos besoins et créons ensemble quelque chose d'exceptionnel.",
+      "ctaButton": "Contactez-nous",
+      "reassurance1": "Réponse sous 24h",
+      "reassurance2": "Consultation gratuite",
+      "reassurance3": "Sans engagement",
+      "uiux": {
+        "title": "Design UI/UX",
+        "description": "Création d'interfaces modernes et intuitives qui captivent vos utilisateurs et renforcent votre identité de marque.",
+        "features": ["Interface sur mesure", "Prototypage interactif", "Design responsive", "Guide de style"]
+      },
+      "dev": {
+        "title": "Développement Web",
+        "description": "Développement de sites web performants et évolutifs avec les technologies les plus récentes.",
+        "features": ["React & écosystème moderne", "Code optimisé", "Performance maximale", "Maintenance"]
+      },
+      "responsive": {
+        "title": "Responsive Design",
+        "description": "Des sites qui s'adaptent parfaitement à tous les appareils, du mobile au desktop.",
+        "features": ["Mobile-first", "Tablette optimisée", "Desktop professionnel", "Tests multi-appareils"]
+      },
+      "perf": {
+        "title": "Optimisation Performance",
+        "description": "Sites ultra-rapides pour une meilleure expérience utilisateur et un meilleur référencement.",
+        "features": ["Temps de chargement réduit", "SEO optimisé", "Compression d'assets", "Cache intelligent"]
+      },
+      "seo": {
+        "title": "SEO & Marketing",
+        "description": "Stratégies de référencement pour améliorer votre visibilité et attirer plus de clients.",
+        "features": ["Audit SEO complet", "Mots-clés ciblés", "Google Analytics", "Stratégie de contenu"]
+      },
+      "ecommerce": {
+        "title": "E-Commerce",
+        "description": "Création de boutiques en ligne complètes pour vendre vos produits efficacement.",
+        "features": ["Catalogue produits", "Paiement sécurisé", "Gestion des stocks", "Tableau de bord"]
+      }
+    },
+    "portfolio": {
+      "eyebrow": "Portfolio",
+      "title": "Nos réalisations",
+      "subtitle": "Découvrez les projets web que nous avons conçus et développés avec passion pour nos clients. Chaque projet est une opportunité de créer quelque chose d'exceptionnel.",
+      "challenge": "Défi",
+      "solution": "Solution",
+      "viewSite": "Voir le site",
+      "bottomTitle": "Vous avez un projet en tête ?",
+      "bottomSubtitle": "Travaillons ensemble pour créer quelque chose d'extraordinaire.",
+      "bottomCta": "Démarrer un projet"
+    },
+    "about": {
+      "eyebrow": "À propos",
+      "title": "Design web depuis Montréal",
+      "subtitle": "Graitaa Studio est un studio créatif spécialisé en design et développement web. Nous aidons les entreprises de Montréal et d'ailleurs à se démarquer avec des sites web modernes qui génèrent des résultats concrets.",
+      "missionLabel": "Notre mission",
+      "missionTitle": "Donner vie à votre vision digitale.",
+      "missionBody": "Chez Graitaa Studio, notre mission est de donner vie à vos idées en créant des sites web qui non seulement sont visuellement époustouflants, mais qui génèrent aussi des résultats concrets. Nous croyons que chaque entreprise mérite une présence en ligne qui reflète son unicité et qui engage ses clients de manière significative.",
+      "missionP1": "Des sites qui génèrent des résultats mesurables",
+      "missionP2": "Un partenaire, pas juste un prestataire",
+      "missionP3": "Livraison dans les délais, toujours",
+      "quote": "Chaque entreprise mérite une présence en ligne qui reflète son unicité.",
+      "quoteAttribution": "— GraitaaStudio, Montréal",
+      "valuesTitle": "Nos valeurs",
+      "valuesSubtitle": "Les principes qui guident notre travail quotidien",
+      "creativity": {
+        "title": "Créativité",
+        "description": "Nous apportons des solutions innovantes et uniques à chaque projet, en repoussant constamment les limites du design et de la technologie."
+      },
+      "collab": {
+        "title": "Collaboration",
+        "description": "Une approche collaborative transparente où votre vision devient notre mission. Nous travaillons main dans la main avec vous."
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "Un engagement inébranlable envers la qualité, les meilleures pratiques et les standards les plus élevés de l'industrie."
+      },
+      "reliability": {
+        "title": "Fiabilité",
+        "description": "Des délais respectés, des promesses tenues et des résultats garantis. Votre succès est notre priorité absolue."
+      },
+      "processLabel": "Notre processus",
+      "processTitle": "Comment on travaille ensemble.",
+      "step1": { "title": "Découverte", "description": "On analyse vos besoins et définissons ensemble les objectifs du projet." },
+      "step2": { "title": "Design", "description": "Maquettes Figma, identité visuelle, validation avant le développement." },
+      "step3": { "title": "Développement", "description": "Code propre, performant et responsive. Tests sur tous les appareils." },
+      "step4": { "title": "Lancement", "description": "Mise en ligne, formation et support post-lancement inclus." },
+      "workTitle": "Réalisations",
+      "workSubtitle": "Quelques projets que nous avons livrés",
+      "viewSite": "Voir le site",
+      "finalTitle": "Créons quelque chose ensemble",
+      "finalSubtitle": "Prêt à transformer votre présence en ligne ? Discutons de votre projet.",
+      "finalCta": "Contactez-nous"
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Discutons de votre projet",
+      "subtitle": "Vous avez une idée de projet ? Une question ? Nous sommes là pour vous écouter et vous accompagner dans la réalisation de votre vision digitale.",
+      "formTitle": "Envoyez-nous un message",
+      "formSubtitle": "Remplissez le formulaire ci-dessous et nous vous répondrons dans les 24 heures.",
+      "honeypot": "Ne pas remplir :",
+      "successTitle": "Message envoyé",
+      "successBody": "Nous vous recontacterons rapidement à l'adresse indiquée.",
+      "errorTitle": "Erreur d'envoi",
+      "errorBody": "Vous pouvez nous écrire directement à",
+      "name": "Nom complet *",
+      "email": "Email *",
+      "company": "Entreprise",
+      "projectType": "Type de projet",
+      "message": "Message *",
+      "sending": "Envoi en cours...",
+      "submit": "Envoyer le message",
+      "contactInfoTitle": "Informations de contact",
+      "sidebarTitle": "Consultation gratuite",
+      "sidebarBody": "Profitez d'une consultation gratuite de 30 minutes pour discuter de votre projet et découvrir comment nous pouvons vous aider à atteindre vos objectifs.",
+      "sidebarCta": "Réserver maintenant",
+      "faqTitle": "Questions fréquentes",
+      "faqSubtitle": "Voici quelques réponses aux questions les plus courantes",
+      "placeholderName": "Jean Dupont",
+      "placeholderEmail": "jean@exemple.com",
+      "placeholderCompany": "Nom de votre entreprise",
+      "placeholderMessage": "Parlez-nous de votre projet...",
+      "emailLabel": "Email",
+      "locationLabel": "Localisation",
+      "locationValue": "Montréal, Québec",
+      "services": {
+        "new_site": "Nouveau site web",
+        "redesign": "Refonte de site existant",
+        "ecommerce": "E-Commerce",
+        "webapp": "Application web",
+        "consultation": "Consultation",
+        "other": "Autre"
+      },
+      "faq1": {
+        "q": "Quel est le délai moyen pour créer un site web ?",
+        "a": "En général, un site web prend entre 4 à 8 semaines, selon la complexité du projet."
+      },
+      "faq2": {
+        "q": "Proposez-vous de la maintenance après le lancement ?",
+        "a": "Oui, nous offrons des forfaits de maintenance pour assurer que votre site reste à jour et sécurisé."
+      },
+      "faq3": {
+        "q": "Travaillez-vous avec des clients en dehors de Montréal ?",
+        "a": "Absolument ! Nous travaillons avec des clients partout au Québec et au Canada."
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page non trouvée",
+    "description": "Désolé, la page que vous recherchez n'existe pas ou a été déplacée.",
+    "home": "Retour à l'accueil",
+    "back": "Page précédente"
+  },
+  "browserMockup": {
+    "url": "graitaastudio.com"
+  }
+}
