@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useAnimatedStat } from '../hooks/useAnimatedStat';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 export const statsBarConfig = [
@@ -20,7 +21,7 @@ export function StatCounter({
   target: number;
   suffix: string;
   label: string;
-  itemVariants: ReturnType<typeof getFadeUp>;
+  itemVariants?: ReturnType<typeof getFadeUp>;
 }) {
   const { ref, display } = useAnimatedStat(target);
   return (
@@ -44,6 +45,7 @@ export function StatCounter({
 export function StatsBar() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const itemVariants = getFadeUp(shouldReduce, { y: 16, duration: 0.5 });
 
   return (
@@ -53,17 +55,17 @@ export function StatsBar() {
     >
       <motion.div
         className="mx-auto max-w-6xl"
-        variants={getFadeUp(shouldReduce, { y: 20 })}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-60px' }}
+        variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 20 })}
+        initial={isMobile ? false : 'hidden'}
+        whileInView={isMobile ? undefined : 'show'}
+        viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
       >
         <motion.div
           className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
-          variants={getStagger(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getStagger(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           {statsBarConfig.map((s) => (
             <StatCounter
@@ -71,7 +73,7 @@ export function StatsBar() {
               target={s.target}
               suffix={s.suffix}
               label={t(s.labelKey)}
-              itemVariants={itemVariants}
+              itemVariants={isMobile ? undefined : itemVariants}
             />
           ))}
         </motion.div>

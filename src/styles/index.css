@@ -78,34 +78,8 @@ body {
     color 300ms ease;
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-16px);
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Mobile / reduced motion: pure CSS decorations & heavy transitions */
+/* Mobile / reduced motion: heavy transitions */
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
-  .orb-1,
-  .orb-2,
-  .ring-2,
-  .ring-3,
-  .dot-1,
-  .dot-2,
-  .dot-3 {
-    display: none !important;
-  }
-
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

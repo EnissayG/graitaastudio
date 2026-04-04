@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 type ShimmerCTAProps = {
   children: ReactNode;
@@ -13,6 +14,7 @@ type ShimmerCTAProps = {
 
 export function ShimmerCTA({ children, className = '', to, href, onClick }: ShimmerCTAProps) {
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
 
   const inner = (
     <>
@@ -21,7 +23,7 @@ export function ShimmerCTA({ children, className = '', to, href, onClick }: Shim
         className="pointer-events-none absolute inset-0 z-0"
         aria-hidden
         initial={{ x: shouldReduce ? '0%' : '-100%' }}
-        whileHover={shouldReduce ? undefined : { x: '100%' }}
+        whileHover={shouldReduce || isMobile ? undefined : { x: '100%' }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         style={{
           background:

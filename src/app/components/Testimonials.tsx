@@ -2,6 +2,7 @@ import { Star, Quote } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 const testimonialKeys = ['t1', 't2', 't3'] as const;
@@ -9,6 +10,7 @@ const testimonialKeys = ['t1', 't2', 't3'] as const;
 export function Testimonials() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const cardVariants = getFadeUp(shouldReduce, { y: 20, duration: 0.5 });
 
   return (
@@ -16,26 +18,26 @@ export function Testimonials() {
       <div className="mx-auto max-w-7xl">
         <motion.div
           className="mx-auto mb-16 max-w-2xl text-center"
-          variants={getStagger(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getStagger(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <motion.span
             className="mb-3 block text-sm uppercase tracking-wide text-[var(--brand-foreground)]"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('testimonials.eyebrow')}
           </motion.span>
           <motion.h2
             className="mb-4 text-3xl font-semibold text-foreground lg:text-4xl"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('testimonials.title')}
           </motion.h2>
           <motion.p
             className="text-lg leading-relaxed text-muted-foreground"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('testimonials.subtitle')}
           </motion.p>
@@ -43,17 +45,17 @@ export function Testimonials() {
 
         <motion.div
           className="grid gap-8 md:grid-cols-3"
-          variants={getStagger(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getStagger(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           {testimonialKeys.map((key) => {
             const p = `testimonials.${key}`;
             return (
               <motion.div
                 key={key}
-                variants={cardVariants}
+                variants={isMobile ? undefined : cardVariants}
                 className="relative rounded-xl border border-[var(--border)] bg-[var(--bg-1)] p-8 transition-shadow duration-300 hover:shadow-lg"
                 style={{ borderWidth: '0.5px' }}
               >

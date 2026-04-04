@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { projects } from '../data/projects';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { useAccentColor } from '../hooks/useAccentColor';
 import {
   getExternalLinkIconVariants,
@@ -23,36 +24,38 @@ function projectTags(t: (k: string, o?: object) => unknown, id: number): string[
 export function Portfolio() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { accentOverlay08 } = useAccentColor();
 
   const linkGap = getLinkGapHoverVariants(shouldReduce);
   const iconVar = getExternalLinkIconVariants(shouldReduce);
+  const noHover = isMobile || shouldReduce;
 
   return (
     <section id="portfolio" className="bg-[var(--bg-2)] px-6 py-20 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <motion.div
           className="mb-14 text-center"
-          variants={getStagger(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getStagger(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <motion.span
             className="mb-2 block text-sm font-medium uppercase tracking-wide text-[var(--blue-text)]"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('portfolioSection.eyebrow')}
           </motion.span>
           <motion.h2
             className="mb-2 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('portfolioSection.title')}
           </motion.h2>
           <motion.p
             className="mx-auto max-w-xl text-base text-[var(--text-2)]"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('portfolioSection.subtitle')}
           </motion.p>
@@ -69,16 +72,16 @@ export function Portfolio() {
             const imageBlock = (
               <motion.div
                 className="relative flex-1"
-                variants={getSlideInX(shouldReduce, imageLeft ? 'left' : 'right', 28)}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
+                variants={isMobile ? undefined : getSlideInX(shouldReduce, imageLeft ? 'left' : 'right', 28)}
+                initial={isMobile ? false : 'hidden'}
+                whileInView={isMobile ? undefined : 'show'}
+                viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
               >
                 <motion.div
                   className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[var(--border)]"
                   style={{ borderWidth: '0.5px' }}
                   initial="rest"
-                  whileHover={shouldReduce ? 'rest' : 'hover'}
+                  whileHover={noHover ? 'rest' : 'hover'}
                   variants={{
                     rest: { scale: 1 },
                     hover: shouldReduce
@@ -108,10 +111,10 @@ export function Portfolio() {
             const textBlock = (
               <motion.div
                 className="flex flex-1 flex-col justify-center gap-3"
-                variants={getSlideInX(shouldReduce, imageLeft ? 'right' : 'left', 20)}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
+                variants={isMobile ? undefined : getSlideInX(shouldReduce, imageLeft ? 'right' : 'left', 20)}
+                initial={isMobile ? false : 'hidden'}
+                whileInView={isMobile ? undefined : 'show'}
+                viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
               >
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
@@ -151,7 +154,7 @@ export function Portfolio() {
                     rel="noopener noreferrer"
                     className="mt-1 inline-flex items-center text-sm font-medium text-[var(--blue-text)]"
                     initial="rest"
-                    whileHover={shouldReduce ? 'rest' : 'hover'}
+                    whileHover={noHover ? 'rest' : 'hover'}
                     variants={linkGap}
                   >
                     {t('portfolioSection.viewSite')}
@@ -164,7 +167,7 @@ export function Portfolio() {
                     to={href}
                     className="mt-1 inline-flex items-center text-sm font-medium text-[var(--blue-text)]"
                     initial="rest"
-                    whileHover={shouldReduce ? 'rest' : 'hover'}
+                    whileHover={noHover ? 'rest' : 'hover'}
                     variants={linkGap}
                   >
                     {t('portfolioSection.viewProject')}
@@ -199,10 +202,10 @@ export function Portfolio() {
 
         <motion.div
           className="text-center"
-          variants={getFadeUp(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getFadeUp(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <Link
             to="/portfolio"

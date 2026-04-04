@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { useAccentColor } from '../hooks/useAccentColor';
 import { getFadeUp } from '../utils/motionVariants';
 
@@ -24,6 +25,7 @@ const faqIds = [1, 2, 3] as const;
 export function ContactPage() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { isDark } = useDarkMode();
   const { accentBorder30, faqOpenBg } = useAccentColor();
   const faqMotionTransition = shouldReduce ? { duration: 0.01 } : { duration: 0.25, ease: 'easeInOut' as const };
@@ -108,10 +110,10 @@ export function ContactPage() {
           <div className="grid gap-12 lg:grid-cols-5">
             <div className="lg:col-span-3">
               <motion.div
-                variants={getFadeUp(shouldReduce, { y: 20 })}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
+                variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 20 })}
+                initial={isMobile ? false : 'hidden'}
+                whileInView={isMobile ? undefined : 'show'}
+                viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
                 className="rounded-xl border border-[var(--border)] bg-[var(--bg-1)] p-8 shadow-sm lg:p-10"
                 style={{ borderWidth: '0.5px' }}
               >
@@ -258,7 +260,7 @@ export function ContactPage() {
                     className="group relative w-full overflow-hidden rounded-lg bg-[var(--blue)] px-8 py-4 text-base font-medium text-[var(--on-accent)] transition-colors hover:bg-[var(--blue-hover)] disabled:opacity-70"
                     initial="rest"
                     whileHover={
-                      status === 'sending' || shouldReduce ? undefined : 'hover'
+                      status === 'sending' || shouldReduce || isMobile ? undefined : 'hover'
                     }
                     variants={{ rest: {}, hover: {} }}
                   >
@@ -294,10 +296,10 @@ export function ContactPage() {
 
             <div className="space-y-6 lg:col-span-2">
               <motion.div
-                variants={getFadeUp(shouldReduce, { y: 20, delay: 0.1 })}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
+                variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 20, delay: 0.1 })}
+                initial={isMobile ? false : 'hidden'}
+                whileInView={isMobile ? undefined : 'show'}
+                viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
               >
                 <h3 className="mb-6 text-xl font-semibold text-[var(--text-1)]">{t('pages.contact.contactInfoTitle')}</h3>
                 <div className="space-y-4">
@@ -333,10 +335,10 @@ export function ContactPage() {
               </motion.div>
 
               <motion.div
-                variants={getFadeUp(shouldReduce, { y: 20, delay: 0.15 })}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
+                variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 20, delay: 0.15 })}
+                initial={isMobile ? false : 'hidden'}
+                whileInView={isMobile ? undefined : 'show'}
+                viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
                 className={`rounded-xl p-8 ${
                   isDark
                     ? 'border border-[var(--blue-border)] bg-[var(--bg-2)]'
@@ -388,10 +390,10 @@ export function ContactPage() {
         <div className="mx-auto max-w-4xl">
           <motion.div
             className="mb-12 text-center"
-            variants={getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             <h2 className="mb-4 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.contact.faqTitle')}</h2>
             <p className="text-[var(--text-2)]">{t('pages.contact.faqSubtitle')}</p>
@@ -403,10 +405,14 @@ export function ContactPage() {
               return (
                 <motion.div
                   key={id}
-                  variants={getFadeUp(shouldReduce, { y: 12, duration: 0.45, delay: index * 0.05 })}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: '-40px' }}
+                  variants={
+                    isMobile
+                      ? undefined
+                      : getFadeUp(shouldReduce, { y: 12, duration: 0.45, delay: index * 0.05 })
+                  }
+                  initial={isMobile ? false : 'hidden'}
+                  whileInView={isMobile ? undefined : 'show'}
+                  viewport={isMobile ? undefined : { once: true, margin: '-40px' }}
                   className={`rounded-[10px] border border-[var(--border)] bg-[var(--bg-1)] transition-all duration-200 ${
                     isOpen ? '' : 'hover:border-[var(--border-hover)]'
                   }`}

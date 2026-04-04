@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PageHero } from '../components/PageHero';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { useAccentColor } from '../hooks/useAccentColor';
 import { getFadeUp, getStagger } from '../utils/motionVariants';
 
@@ -15,6 +16,7 @@ const serviceIcons = [Palette, Code2, Smartphone, Zap, Search, ShoppingBag];
 export function ServicesPage() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { isDark } = useDarkMode();
   const { accentBorder, accentShadow06, accentNum20 } = useAccentColor();
   const cardHoverShadow = `0 12px 32px ${accentShadow06}`;
@@ -36,10 +38,10 @@ export function ServicesPage() {
         <div className="mx-auto max-w-7xl">
           <motion.div
             className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-            variants={getStagger(shouldReduce)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getStagger(shouldReduce)}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             {serviceKeys.map((key, index) => {
               const p = `pages.services.${key}`;
@@ -50,9 +52,9 @@ export function ServicesPage() {
               return (
                 <motion.div
                   key={key}
-                  variants={cardVariants}
+                  variants={isMobile ? undefined : cardVariants}
                   whileHover={
-                    shouldReduce
+                    isMobile || shouldReduce
                       ? {}
                       : {
                           y: -4,
@@ -118,10 +120,10 @@ export function ServicesPage() {
         ) : null}
         <motion.div
           className="relative z-10 mx-auto max-w-4xl text-center"
-          variants={getFadeUp(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getFadeUp(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <h2
             className={`mb-4 text-3xl font-semibold lg:text-4xl ${isDark ? 'text-[var(--text-1)]' : 'text-white'}`}

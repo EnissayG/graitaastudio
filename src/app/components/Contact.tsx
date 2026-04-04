@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { getFadeUp } from '../utils/motionVariants';
 
@@ -11,6 +12,7 @@ const EMAIL = 'graitaastudio@gmail.com';
 export function Contact() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { isDark } = useDarkMode();
 
   const contactInfo = [
@@ -34,10 +36,10 @@ export function Contact() {
     >
       <motion.div
         className="mx-auto max-w-6xl"
-        variants={getFadeUp(shouldReduce)}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-60px' }}
+        variants={isMobile ? undefined : getFadeUp(shouldReduce)}
+        initial={isMobile ? false : 'hidden'}
+        whileInView={isMobile ? undefined : 'show'}
+        viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
       >
         <div className="mb-14 text-center">
           <h2

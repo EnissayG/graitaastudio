@@ -9,6 +9,7 @@ import { statsBarConfig } from '../components/StatsBar';
 import { useAnimatedStat } from '../hooks/useAnimatedStat';
 import { useAccentColor } from '../hooks/useAccentColor';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 function AboutStatCell({
@@ -40,6 +41,7 @@ function AboutStatCell({
 export function AboutPage() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const valueCardVariants = getFadeUp(shouldReduce, { y: 20, duration: 0.5 });
   const projectCardVariants = getFadeUp(shouldReduce, { y: 20, duration: 0.5 });
   const {
@@ -78,10 +80,10 @@ export function AboutPage() {
         <motion.div
           className="mx-auto max-w-6xl overflow-hidden rounded-xl border border-[var(--stats-band-border)] bg-[var(--stats-band-bg)]"
           style={{ borderWidth: '0.5px', borderRadius: 12 }}
-          variants={getFadeUp(shouldReduce, { y: 20 })}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 20 })}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <div className="flex flex-col md:flex-row md:flex-nowrap">
             {statsBarConfig.map((s) => (
@@ -95,10 +97,10 @@ export function AboutPage() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-12 lg:flex-row lg:gap-16">
           <motion.div
             className="flex-1"
-            variants={getFadeUp(shouldReduce, { y: 20 })}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 20 })}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             <p className="mb-3 text-sm font-medium uppercase tracking-wide text-[var(--blue-text)]">
               {t('pages.about.missionLabel')}
@@ -124,10 +126,10 @@ export function AboutPage() {
               borderRadius: 16,
               padding: 40,
             }}
-            variants={getFadeUp(shouldReduce, { y: 20, delay: 0.08 })}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 20, delay: 0.08 })}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             <p className="text-lg italic leading-[1.7] text-[var(--text-2)]">{t('pages.about.quote')}</p>
             <div className="mt-6 border-t border-[var(--border)] pt-4 text-[13px] text-[var(--blue-text)]" style={{ borderTopWidth: '0.5px' }}>
@@ -141,29 +143,29 @@ export function AboutPage() {
         <div className="mx-auto max-w-6xl">
           <motion.div
             className="mb-14 text-center"
-            variants={getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             <h2 className="mb-3 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.about.valuesTitle')}</h2>
             <p className="text-lg text-[var(--text-2)]">{t('pages.about.valuesSubtitle')}</p>
           </motion.div>
           <motion.div
             className="grid grid-cols-1 gap-6 sm:grid-cols-2"
-            variants={getStagger(shouldReduce)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getStagger(shouldReduce)}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             {valueDefs.map((value, index) => {
               const p = `pages.about.${value.key}`;
               return (
                 <motion.div
                   key={value.key}
-                  variants={valueCardVariants}
+                  variants={isMobile ? undefined : valueCardVariants}
                   whileHover={
-                    shouldReduce
+                    isMobile || shouldReduce
                       ? {}
                       : {
                           y: -4,
@@ -208,10 +210,10 @@ export function AboutPage() {
         <div className="mx-auto max-w-6xl">
           <motion.div
             className="mb-14 text-center"
-            variants={getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             <p className="mb-3 text-sm font-medium uppercase tracking-wide text-[var(--blue-text)]">
               {t('pages.about.processLabel')}
@@ -228,10 +230,12 @@ export function AboutPage() {
                   <Fragment key={stepKey}>
                     <motion.div
                       className="flex w-[200px] shrink-0 flex-col items-center text-center"
-                      variants={getFadeUp(shouldReduce, { y: 16, duration: 0.45, delay: i * 0.06 })}
-                      initial="hidden"
-                      whileInView="show"
-                      viewport={{ once: true, margin: '-60px' }}
+                      variants={
+                        isMobile ? undefined : getFadeUp(shouldReduce, { y: 16, duration: 0.45, delay: i * 0.06 })
+                      }
+                      initial={isMobile ? false : 'hidden'}
+                      whileInView={isMobile ? undefined : 'show'}
+                      viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
                     >
                       <div
                         className="flex size-10 items-center justify-center rounded-full text-base font-bold text-[var(--blue-text)]"
@@ -270,10 +274,12 @@ export function AboutPage() {
               return (
                 <motion.div
                   key={stepKey}
-                  variants={getFadeUp(shouldReduce, { y: 16, duration: 0.45, delay: i * 0.05 })}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: '-60px' }}
+                  variants={
+                    isMobile ? undefined : getFadeUp(shouldReduce, { y: 16, duration: 0.45, delay: i * 0.05 })
+                  }
+                  initial={isMobile ? false : 'hidden'}
+                  whileInView={isMobile ? undefined : 'show'}
+                  viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
                   className="flex gap-4"
                 >
                   <div
@@ -302,20 +308,20 @@ export function AboutPage() {
         <div className="mx-auto max-w-6xl">
           <motion.div
             className="mb-14 text-center"
-            variants={getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16, duration: 0.5 })}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             <h2 className="mb-3 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.about.workTitle')}</h2>
             <p className="text-lg text-[var(--text-2)]">{t('pages.about.workSubtitle')}</p>
           </motion.div>
           <motion.div
             className="grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
-            variants={getStagger(shouldReduce)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getStagger(shouldReduce)}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             {projects.map((project) => {
               const base = `projects.byId.${project.id}`;
@@ -327,9 +333,9 @@ export function AboutPage() {
                 <Wrapper
                   key={project.id}
                   {...wrapperProps}
-                  variants={projectCardVariants}
+                  variants={isMobile ? undefined : projectCardVariants}
                   whileHover={
-                    project.url && !shouldReduce
+                    project.url && !shouldReduce && !isMobile
                       ? {
                           y: -4,
                           borderColor: accentBorder30,
@@ -372,10 +378,10 @@ export function AboutPage() {
       <section className="border-t border-[var(--border)] bg-[var(--bg-2)] px-6 py-20 lg:px-8" style={{ borderTopWidth: '0.5px' }}>
         <div className="mx-auto max-w-4xl text-center">
           <motion.div
-            variants={getFadeUp(shouldReduce)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce)}
+            initial={isMobile ? false : 'hidden'}
+            whileInView={isMobile ? undefined : 'show'}
+            viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
           >
             <Heart className="mx-auto mb-4 size-10 text-[var(--blue-text)]" strokeWidth={1.75} />
             <h2 className="mb-4 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">{t('pages.about.finalTitle')}</h2>

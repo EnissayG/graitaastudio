@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { useAccentColor } from '../hooks/useAccentColor';
 import { getFadeUp, getStagger } from '../utils/motionVariants';
 
@@ -31,6 +32,7 @@ function ServiceCard({
   hoverBorder,
   hoverShadow,
   shouldReduce,
+  isMobile,
 }: {
   title: string;
   description: string;
@@ -39,12 +41,14 @@ function ServiceCard({
   hoverBorder: string;
   hoverShadow: string;
   shouldReduce: boolean;
+  isMobile: boolean;
 }) {
+  const noHover = isMobile || shouldReduce;
   return (
     <motion.div
-      variants={cardItemVariants(shouldReduce)}
+      variants={isMobile ? undefined : cardItemVariants(shouldReduce)}
       whileHover={
-        shouldReduce
+        noHover
           ? {}
           : {
               y: -5,
@@ -60,7 +64,7 @@ function ServiceCard({
         className="mb-4 flex size-10 items-center justify-center rounded-[10px] border border-[var(--blue-border)] bg-[var(--blue-dim)] text-[var(--blue)]"
         style={{ borderWidth: '0.5px' }}
         whileHover={
-          shouldReduce
+          noHover
             ? {}
             : {
                 rotate: [0, -8, 8, 0],
@@ -90,6 +94,7 @@ function ServiceCard({
 export function Services() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { accentBorder30, accentShadow08 } = useAccentColor();
   const hoverShadow = `0 12px 32px ${accentShadow08}`;
 
@@ -98,26 +103,26 @@ export function Services() {
       <div className="mx-auto max-w-7xl">
         <motion.div
           className="mx-auto mb-14 max-w-3xl text-center"
-          variants={getStagger(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getStagger(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <motion.span
             className="mb-3 block text-sm font-medium uppercase tracking-wide text-[var(--blue)]"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('servicesHome.eyebrow')}
           </motion.span>
           <motion.h2
             className="mb-4 text-3xl font-semibold text-[var(--text-1)] lg:text-4xl"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('servicesHome.title')}
           </motion.h2>
           <motion.p
             className="text-lg leading-relaxed text-[var(--text-2)]"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('servicesHome.subtitle')}
           </motion.p>
@@ -125,10 +130,10 @@ export function Services() {
 
         <motion.div
           className="mb-16 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3"
-          variants={getStagger(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getStagger(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           {serviceDefs.map((def) => {
             const p = `servicesHome.${def.keyPrefix}`;
@@ -142,6 +147,7 @@ export function Services() {
                 hoverBorder={accentBorder30}
                 hoverShadow={hoverShadow}
                 shouldReduce={shouldReduce}
+                isMobile={isMobile}
               />
             );
           })}
@@ -149,10 +155,10 @@ export function Services() {
 
         <motion.div
           className="text-center"
-          variants={getFadeUp(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getFadeUp(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <Link
             to="/services"

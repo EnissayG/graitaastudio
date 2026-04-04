@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { projects } from '../data/projects';
 import { PageHero } from '../components/PageHero';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { useAccentColor } from '../hooks/useAccentColor';
 import {
   getExternalLinkIconVariants,
@@ -21,9 +22,11 @@ function projectTags(t: (k: string, o?: object) => unknown, id: number): string[
 export function PortfolioPage() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { accentOverlay08 } = useAccentColor();
   const linkGap = getLinkGapHoverVariants(shouldReduce);
   const iconVar = getExternalLinkIconVariants(shouldReduce);
+  const noHover = isMobile || shouldReduce;
 
   return (
     <div className="pt-24">
@@ -43,16 +46,16 @@ export function PortfolioPage() {
             const imageBlock = (
               <motion.div
                 className="relative w-full flex-1"
-                variants={getSlideInX(shouldReduce, imageLeft ? 'left' : 'right', 28)}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
+                variants={isMobile ? undefined : getSlideInX(shouldReduce, imageLeft ? 'left' : 'right', 28)}
+                initial={isMobile ? false : 'hidden'}
+                whileInView={isMobile ? undefined : 'show'}
+                viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
               >
                 <motion.div
                   className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[var(--border)]"
                   style={{ borderWidth: '0.5px' }}
                   initial="rest"
-                  whileHover={shouldReduce ? 'rest' : 'hover'}
+                  whileHover={noHover ? 'rest' : 'hover'}
                   variants={{
                     rest: { scale: 1 },
                     hover: shouldReduce
@@ -82,10 +85,10 @@ export function PortfolioPage() {
             const textBlock = (
               <motion.div
                 className="flex w-full flex-1 flex-col justify-center gap-4"
-                variants={getSlideInX(shouldReduce, imageLeft ? 'right' : 'left', 20)}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
+                variants={isMobile ? undefined : getSlideInX(shouldReduce, imageLeft ? 'right' : 'left', 20)}
+                initial={isMobile ? false : 'hidden'}
+                whileInView={isMobile ? undefined : 'show'}
+                viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
               >
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
@@ -124,7 +127,7 @@ export function PortfolioPage() {
                     rel="noopener noreferrer"
                     className="mt-1 inline-flex items-center text-sm font-medium text-[var(--blue-text)]"
                     initial="rest"
-                    whileHover={shouldReduce ? 'rest' : 'hover'}
+                    whileHover={noHover ? 'rest' : 'hover'}
                     variants={linkGap}
                   >
                     {t('pages.portfolio.viewSite')}
@@ -162,10 +165,10 @@ export function PortfolioPage() {
         <motion.div
           className="mx-auto max-w-4xl rounded-xl border border-[var(--blue-border)] bg-[var(--bg-1)] px-8 py-14 text-center shadow-sm"
           style={{ borderWidth: '0.5px' }}
-          variants={getFadeUp(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getFadeUp(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <h2 className="mb-4 text-2xl font-semibold text-[var(--text-1)] lg:text-3xl">
             {t('pages.portfolio.bottomTitle')}

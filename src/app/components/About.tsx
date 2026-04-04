@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useAnimatedStat } from '../hooks/useAnimatedStat';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { getFadeUp, getStagger } from '../utils/motionVariants';
 
 const statConfig = [
@@ -28,32 +29,33 @@ function AboutStat({ target, suffix, label }: { target: number; suffix: string; 
 export function About() {
   const { t } = useTranslation();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
 
   return (
     <section id="about" className="bg-[var(--bg-1)] px-6 py-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <motion.div
           className="mx-auto mb-16 max-w-3xl text-center"
-          variants={getStagger(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getStagger(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <motion.span
             className="mb-3 block text-sm uppercase tracking-wide text-[var(--brand-foreground)]"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('aboutHome.eyebrow')}
           </motion.span>
           <motion.h2
             className="mb-4 text-3xl font-semibold text-foreground lg:text-4xl"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('aboutHome.title')}
           </motion.h2>
           <motion.p
             className="text-lg leading-relaxed text-muted-foreground"
-            variants={getFadeUp(shouldReduce, { y: 16 })}
+            variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 16 })}
           >
             {t('aboutHome.subtitle')}
           </motion.p>
@@ -61,10 +63,10 @@ export function About() {
 
         <motion.div
           className="mb-16 grid grid-cols-2 gap-10 lg:grid-cols-4"
-          variants={getFadeUp(shouldReduce, { y: 24 })}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getFadeUp(shouldReduce, { y: 24 })}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           {statConfig.map((stat) => (
             <AboutStat
@@ -78,10 +80,10 @@ export function About() {
 
         <motion.div
           className="text-center"
-          variants={getFadeUp(shouldReduce)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
+          variants={isMobile ? undefined : getFadeUp(shouldReduce)}
+          initial={isMobile ? false : 'hidden'}
+          whileInView={isMobile ? undefined : 'show'}
+          viewport={isMobile ? undefined : { once: true, margin: '-60px' }}
         >
           <Link
             to="/about"

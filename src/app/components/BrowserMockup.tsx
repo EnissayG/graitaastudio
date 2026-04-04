@@ -3,11 +3,13 @@ import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useAccentColor } from '../hooks/useAccentColor';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export function BrowserMockup() {
   const { t } = useTranslation();
   const { mockRing, mockHoverShadow, accentFade15 } = useAccentColor();
   const shouldReduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const boxRest = `0 24px 48px rgba(0,0,0,0.08), 0 0 0 0.5px ${mockRing}`;
   const boxHover = `0 32px 64px ${mockHoverShadow}`;
 
@@ -23,7 +25,7 @@ export function BrowserMockup() {
         }}
         initial={shouldReduce ? { rotateY: 0, rotateX: 0 } : { rotateY: -4, rotateX: 2 }}
         whileHover={
-          shouldReduce
+          shouldReduce || isMobile
             ? {}
             : {
                 rotateY: 0,

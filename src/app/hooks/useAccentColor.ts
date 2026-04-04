@@ -41,9 +41,6 @@ export function useAccentColor() {
       : 'linear-gradient(90deg, #2563EB, rgba(37,99,235,0.2))',
     mockRing: isDark ? 'rgba(96,165,250,0.1)' : 'rgba(37,99,235,0.1)',
     mockHoverShadow: isDark ? 'rgba(96,165,250,0.14)' : 'rgba(37,99,235,0.12)',
-    heroOrbSmall: isDark
-      ? 'radial-gradient(circle, rgba(96,165,250,0.06) 0%, transparent 68%)'
-      : 'radial-gradient(circle, rgba(37,99,235,0.04) 0%, transparent 68%)',
     faqOpenBg: isDark ? 'rgba(96,165,250,0.06)' : 'rgba(37,99,235,0.03)',
   };
 }
